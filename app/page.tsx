@@ -111,7 +111,15 @@ function useInView(threshold = 0.14) {
   return { ref, inView };
 }
 
-function Reveal({ children, className = "", delay = 0 }) {
+function Reveal({
+  children,
+  className = "",
+  delay = 0,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  delay?: number;
+}) {
   const { ref, inView } = useInView();
   return (
     <div
@@ -700,7 +708,7 @@ export default function AjantaLandingPage() {
   }, [menuOpen]);
 
   const goTo = useCallback(
-    (id) => (e) => {
+    (id: string) => (e: React.MouseEvent<HTMLAnchorElement>) => {
       e.preventDefault();
       setMenuOpen(false);
       const el = document.getElementById(id);
@@ -711,7 +719,7 @@ export default function AjantaLandingPage() {
     []
   );
 
-  const goTop = useCallback((e) => {
+  const goTop = useCallback((e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
     setMenuOpen(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
