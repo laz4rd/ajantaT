@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
 *, *::before, *::after {
   box-sizing: border-box;
@@ -14,8 +14,9 @@
   --gray-400: #999999;
   --gray-600: #555555;
   --border: 1.5px solid #000;
-  --font-display: 'Space Grotesk', sans-serif;
+  --font-display: 'Inter', sans-serif;
   --font-mono: 'Space Mono', monospace;
+  --radius-btn: 6px;
 }
 
 body {
@@ -71,6 +72,7 @@ body {
   font-weight: 700;
   padding: 0.6rem 1.4rem;
   border: var(--border);
+  border-radius: var(--radius-btn);
   background: var(--black);
   color: var(--white);
   cursor: pointer;
@@ -138,6 +140,7 @@ body {
   font-weight: 700;
   padding: 1rem 2rem;
   border: var(--border);
+  border-radius: var(--radius-btn);
   background: var(--black);
   color: var(--white);
   cursor: pointer;
@@ -519,6 +522,7 @@ body {
   font-weight: 700;
   padding: 1rem 2rem;
   border: 1.5px solid var(--white);
+  border-radius: var(--radius-btn);
   background: var(--white);
   color: var(--black);
   cursor: pointer;
@@ -538,6 +542,7 @@ body {
   cursor: pointer;
   background: none;
   border: 1.5px solid rgba(255,255,255,0.3);
+  border-radius: var(--radius-btn);
   color: var(--white);
   padding: 1rem 2rem;
   font-family: var(--font-mono);

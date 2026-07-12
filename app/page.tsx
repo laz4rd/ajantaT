@@ -15,6 +15,11 @@ const CATALOGUE_MESSAGE =
 const ENQUIRY_MESSAGE =
   "Hi Ajanta, I'd like to start a corporate gifting enquiry.";
 
+// ── LOGOS ──
+// Paths assume files live in /public (Next.js) so they're served from the site root.
+// Adjust the paths below if your logos live elsewhere in the codebase.
+const MAIN_LOGO = "/Mainlogo.png";
+
 const HERO_IMAGE = {
   src: "https://images.unsplash.com/photo-1671749999622-4087a86868cc?q=80&w=1400&auto=format&fit=crop",
   alt: "Premium corporate gift box with ribbon",
@@ -94,21 +99,17 @@ const TESTIMONIALS = [
   },
 ];
 
-// Placeholder client wordmarks — swap the `name` values for your real client roster.
-// Kept as styled text (not logo image files) so nothing needs sourcing before launch.
+// Client logos — expects /public/client1.png, /public/client2.png, etc.
+// Add or remove entries to match how many logo files you have; update `alt` with real client names.
 const CLIENTS = [
-  "Solstice Bank",
-  "Northgate Tech",
-  "Vantara Retail",
-  "Meridian Health",
-  "Prakash Industries",
-  "Loomis & Rao",
-  "Suvidha Finance",
-  "Copperline Media",
-  "Rangoli Foods",
-  "Alta Logistics",
-  "Kavach Insurance",
-  "Bluewave Systems",
+  { src: "/client1.png", alt: "Client 1" },
+  { src: "/client2.png", alt: "Client 2" },
+  { src: "/client3.png", alt: "Client 3" },
+  { src: "/client4.png", alt: "Client 4" },
+  { src: "/client5.png", alt: "Client 5" },
+  { src: "/client6.png", alt: "Client 6" },
+  { src: "/client7.png", alt: "Client 7" },
+  { src: "/client8.png", alt: "Client 8" },
 ];
 
 const NAV_LINKS = [
@@ -180,6 +181,7 @@ const STYLES = `
   --nav-h:    72px;
   --maxw:     1240px;
   --pad:      clamp(20px, 5vw, 60px);
+  --radius-btn: 8px;
   background: var(--white);
   color:      var(--ink);
   font-family:'Inter', system-ui, sans-serif;
@@ -278,23 +280,13 @@ const STYLES = `
 }
 .aj-nav__brand {
   display:        flex;
-  flex-direction: column;
-  line-height:    1;
-  gap:            3px;
+  align-items:    center;
 }
-.aj-nav__mark {
-  font-family:    'Bricolage Grotesque', system-ui, sans-serif;
-  font-weight:    800;
-  font-size:      22px;
-  letter-spacing: -0.03em;
-  color:          var(--ink);
-}
-.aj-nav__tag {
-  font-size:      10px;
-  font-weight:    500;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color:          var(--grey-500);
+.aj-nav__logo-img {
+  height:      36px;
+  width:       auto;
+  object-fit:  contain;
+  display:     block;
 }
 .aj-nav__links { display: none; gap: 32px; align-items: center; }
 .aj-nav__link {
@@ -577,20 +569,20 @@ const STYLES = `
   display:        flex;
   align-items:    center;
   justify-content: center;
-  padding:        20px;
-  text-align:     center;
+  padding:        24px;
   transition:     background .2s ease;
 }
 .aj-client:hover { background: var(--off-white); }
-.aj-client__name {
-  font-family:    'Bricolage Grotesque', system-ui, sans-serif;
-  font-weight:    700;
-  font-size:      16px;
-  letter-spacing: -0.01em;
-  color:          var(--grey-300);
-  transition:     color .2s ease;
+.aj-client__logo {
+  max-width:  100%;
+  max-height: 48px;
+  width:      auto;
+  height:     auto;
+  object-fit: contain;
+  filter:     grayscale(1) opacity(0.55);
+  transition: filter .2s ease;
 }
-.aj-client:hover .aj-client__name { color: var(--ink); }
+.aj-client:hover .aj-client__logo { filter: grayscale(0) opacity(1); }
 
 /* ── TESTIMONIALS ── */
 .aj-testi-grid {
@@ -681,6 +673,7 @@ const STYLES = `
   letter-spacing:  0.04em;
   padding:         14px 28px;
   border:          1.5px solid transparent;
+  border-radius:   var(--radius-btn);
   transition:      background .2s, color .2s, border-color .2s;
   cursor:          pointer;
   white-space:     nowrap;
@@ -711,14 +704,14 @@ const STYLES = `
 }
 @media (min-width: 720px) { .aj-footer__inner { grid-template-columns: 1.4fr 1fr 1fr; } }
 
-.aj-footer__mark {
-  font-family:    'Bricolage Grotesque', system-ui, sans-serif;
-  font-weight:    800;
-  font-size:      22px;
-  letter-spacing: -0.01em;
-  color:          var(--white);
-  display:        block;
-  margin-bottom:  10px;
+.aj-footer__logo-img {
+  height:        32px;
+  width:         auto;
+  object-fit:    contain;
+  display:       block;
+  margin-bottom: 14px;
+  /* Logo is assumed dark-on-transparent; invert so it reads on the dark footer. */
+  filter:        brightness(0) invert(1);
 }
 .aj-footer__copy {
   font-size:   14px;
@@ -797,8 +790,7 @@ export default function AjantaLandingPage() {
       <header className="aj-nav">
         <div className="aj-container aj-nav__inner">
           <a href="#top" className="aj-nav__brand" onClick={goTop}>
-            <span className="aj-nav__mark">Ajanta</span>
-            <span className="aj-nav__tag">Corporate Gifting</span>
+            <img className="aj-nav__logo-img" src={MAIN_LOGO} alt="Ajanta — Corporate Gifting" />
           </a>
 
           <nav className="aj-nav__links" aria-label="Primary">
@@ -967,9 +959,14 @@ export default function AjantaLandingPage() {
             </Reveal>
             <Reveal>
               <div className="aj-clients__grid">
-                {CLIENTS.map((name) => (
-                  <div key={name} className="aj-client">
-                    <span className="aj-client__name">{name}</span>
+                {CLIENTS.map((client) => (
+                  <div key={client.src} className="aj-client">
+                    <img
+                      className="aj-client__logo"
+                      src={client.src}
+                      alt={client.alt}
+                      loading="lazy"
+                    />
                   </div>
                 ))}
               </div>
@@ -1041,7 +1038,7 @@ export default function AjantaLandingPage() {
       <footer className="aj-footer">
         <div className="aj-container aj-footer__inner">
           <div>
-            <span className="aj-footer__mark">Ajanta</span>
+            <img className="aj-footer__logo-img" src={MAIN_LOGO} alt="Ajanta — Corporate Gifting" />
             <p className="aj-footer__copy">
               Corporate gifting, built to specification. Pan-India production and delivery.
             </p>
