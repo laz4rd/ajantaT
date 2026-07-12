@@ -1,123 +1,17 @@
-"use client"
-import React, { useEffect, useRef, useState, useCallback } from "react";
+'use client'
 
-// ── CONTACT ──
-// TODO: replace with the real WhatsApp Business number (with country code, no + or spaces needed here).
-const WHATSAPP_NUMBER = "91XXXXXXXXXX";
-const CONTACT_EMAIL = " ";
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 
-function whatsappLink(message: string) {
-  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-}
+const ABOUT_STORY = `Ajanta Corporate Gifting began with a simple vision: to transform corporate gifting from a transactional obligation into a meaningful relationship-building opportunity. Founded in [Year] by [Founder Name], our journey started in a small workshop where we handcrafted personalized gifts for local businesses.
 
-const CATALOGUE_MESSAGE =
-  "Hi Ajanta, I'd like to request your corporate gifting catalogue.";
-const ENQUIRY_MESSAGE =
-  "Hi Ajanta, I'd like to start a corporate gifting enquiry.";
+What began as a passion project quickly grew as clients recognized the thoughtfulness and quality of our offerings. Today, we serve over 500+ brands across India, delivering 12M+ gifts with a 99% on-time rate. Our commitment to excellence remains unchanged - every gift is still crafted with the same attention to detail and personal touch that started it all.
+
+We believe that the best gifts tell a story, strengthen connections, and leave lasting impressions. That's why we continue to innovate while staying true to our core values of quality, customization, and reliable service.`;
 
 const HERO_IMAGE = {
-  src: "https://images.unsplash.com/photo-1671749999622-4087a86868cc?q=80&w=1400&auto=format&fit=crop",
-  alt: "Premium corporate gift box with ribbon",
+  src: "https://images.unsplash.com/photo-1581091878487-7d24424bf374?q=80&w=1400&auto=format&fit=crop",
+  alt: "Handcrafted corporate gifts being packaged",
 };
-
-const CATEGORIES = [
-  {
-    title: "Executive Gifting",
-    desc: "Leather goods, premium pens, and desk accessories for leadership gifting and client appreciation.",
-    img: "https://images.unsplash.com/photo-1677064061401-f77f966ff8a1?q=80&w=1200&auto=format&fit=crop",
-    alt: "Leather notebook with a pen, a premium executive gift set",
-  },
-  {
-    title: "Onboarding Kits",
-    desc: "Welcome kits that make day one count — apparel, notebooks, and essentials, thoughtfully assembled and boxed.",
-    img: "https://images.unsplash.com/photo-1674620213535-9b2a2553ef40?q=80&w=1200&auto=format&fit=crop",
-    alt: "Corporate onboarding kit packaging",
-  },
-  {
-    title: "Festive Hampers",
-    desc: "Curated gourmet hampers for festive and year-end gifting, scaled across offices and cities.",
-    img: "https://images.unsplash.com/photo-1773450970981-793e2d72d820?q=80&w=1200&auto=format&fit=crop",
-    alt: "Gourmet gift hamper, festive corporate gifting",
-  },
-  {
-    title: "Event & Conference",
-    desc: "Branded merchandise for conferences, launches, and team events — totes, drinkware, and apparel.",
-    img: "https://images.unsplash.com/photo-1548863227-3af567fc3b27?q=80&w=1200&auto=format&fit=crop",
-    alt: "Corporate event merchandise, canvas tote bag",
-  },
-];
-
-const BENEFITS = [
-  {
-    num: "01",
-    title: "Custom Branding",
-    desc: "Brand colours, logo placement, packaging, and insert cards — managed end to end with your team.",
-  },
-  {
-    num: "02",
-    title: "Bulk Capacity",
-    desc: "Single production runs from 250 to 50,000+ units, with consistent quality across the full batch.",
-  },
-  {
-    num: "03",
-    title: "Quality Assurance",
-    desc: "Every order is sample-approved before production begins and batch-inspected before dispatch.",
-  },
-  {
-    num: "04",
-    title: "Pan-India Delivery",
-    desc: "Logistics partnerships across 500+ cities with fixed delivery windows and door-to-door tracking.",
-  },
-];
-
-const TESTIMONIALS = [
-  {
-    quote:
-      "The customization process felt like working with an in-house team, not a vendor. Every detail matched our brand guidelines on the first pass.",
-    name: "R. Kapoor",
-    title: "Head of Employee Experience",
-    company: "Financial Services",
-  },
-  {
-    quote:
-      "We needed four thousand onboarding kits delivered across six cities in eleven days. Ajanta delivered on day ten.",
-    name: "S. Iyer",
-    title: "VP, People Operations",
-    company: "Technology",
-  },
-  {
-    quote:
-      "Quality control is the part most vendors skip. Ajanta sent approval samples before a single unit went into production.",
-    name: "N. Shah",
-    title: "Procurement Lead",
-    company: "Manufacturing",
-  },
-];
-
-// Placeholder client wordmarks — swap the `name` values for your real client roster.
-// Kept as styled text (not logo image files) so nothing needs sourcing before launch.
-const CLIENTS = [
-  "Solstice Bank",
-  "Northgate Tech",
-  "Vantara Retail",
-  "Meridian Health",
-  "Prakash Industries",
-  "Loomis & Rao",
-  "Suvidha Finance",
-  "Copperline Media",
-  "Rangoli Foods",
-  "Alta Logistics",
-  "Kavach Insurance",
-  "Bluewave Systems",
-];
-
-const NAV_LINKS = [
-  { id: "categories", label: "Products" },
-  { id: "capabilities", label: "Why Ajanta" },
-  { id: "clients", label: "Clients" },
-  { id: "testimonials", label: "Testimonials" },
-  { id: "enquire", label: "Contact" },
-];
 
 function useInView(threshold = 0.14) {
   const ref = useRef(null);
@@ -131,7 +25,10 @@ function useInView(threshold = 0.14) {
     if (reduced) { setInView(true); return; }
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((e) => { if (e.isIntersecting) { setInView(true); observer.disconnect(); } });
+        if (entries[0].isIntersecting) {
+          setInView(true);
+          observer.disconnect();
+        }
       },
       { threshold }
     );
@@ -296,7 +193,7 @@ const STYLES = `
   text-transform: uppercase;
   color:          var(--grey-500);
 }
-.aj-nav__links { display: none; gap: 32px; align-items: center; }
+.aj-nav__links { display: none; gap: 36px; align-items: center; }
 .aj-nav__link {
   font-size:   13px;
   font-weight: 500;
@@ -365,10 +262,10 @@ const STYLES = `
 .aj-mobile-menu__link {
   font-family:    'Bricolage Grotesque', system-ui, sans-serif;
   font-weight:    800;
-  font-size:      clamp(30px, 9vw, 46px);
+  font-size:      clamp(32px, 9vw, 48px);
   color:          var(--white);
   line-height:    1.2;
-  padding:        12px 0;
+  padding:        14px 0;
   border-bottom:  1px solid rgba(255,255,255,0.1);
   transition:     color .2s;
 }
@@ -480,196 +377,6 @@ const STYLES = `
 }
 .aj-section__divider--center { margin-left: auto; margin-right: auto; }
 
-/* ── CATEGORY GRID ── */
-.aj-cat-grid {
-  display:               grid;
-  gap:                   32px;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 640px) { .aj-cat-grid { grid-template-columns: repeat(2, 1fr); } }
-
-.aj-cat-card {
-  background:  var(--white);
-  border:      1px solid var(--line);
-  overflow:    hidden;
-  transition:  box-shadow .25s ease, transform .25s ease;
-}
-.aj-cat-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-3px); }
-.aj-cat-card__img {
-  aspect-ratio: 3/2;
-  overflow:    hidden;
-  background:  var(--grey-100);
-}
-.aj-cat-card__img img {
-  width:      100%;
-  height:     100%;
-  object-fit: cover;
-  display:    block;
-  filter:     grayscale(0.12);
-  transition: transform .4s ease;
-}
-.aj-cat-card:hover .aj-cat-card__img img { transform: scale(1.04); }
-.aj-cat-card__body { padding: 24px 28px 28px; }
-.aj-cat-card__title {
-  font-family:    'Bricolage Grotesque', system-ui, sans-serif;
-  font-weight:    700;
-  font-size:      20px;
-  margin:         0 0 10px;
-  color:          var(--ink);
-}
-.aj-cat-card__desc { font-size: 14px; line-height: 1.7; color: var(--grey-700); margin: 0; }
-.aj-cat-card__link {
-  display:        inline-flex;
-  align-items:    center;
-  gap:            6px;
-  font-size:      13px;
-  font-weight:    600;
-  color:          var(--blue);
-  margin-top:     16px;
-  letter-spacing: 0.01em;
-  transition:     gap .2s;
-}
-.aj-cat-card:hover .aj-cat-card__link { gap: 10px; }
-
-/* ── CAPABILITIES (dossier) ── */
-.aj-dossier { border-top: 1px solid var(--line); }
-.aj-dossier__row {
-  display:        grid;
-  gap:            12px;
-  padding:        32px 0;
-  border-bottom:  1px solid var(--line);
-  align-items:    start;
-}
-@media (min-width: 760px) {
-  .aj-dossier__row { grid-template-columns: 240px 1fr; gap: 40px; }
-}
-.aj-dossier__label { display: flex; align-items: baseline; gap: 14px; }
-.aj-dossier__num {
-  font-size:   13px;
-  font-weight: 600;
-  color:       var(--blue);
-  min-width:   28px;
-}
-.aj-dossier__title {
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-  font-weight: 700;
-  font-size:   18px;
-  color:       var(--ink);
-}
-.aj-dossier__desc { font-size: 15px; line-height: 1.75; color: var(--grey-700); max-width: 54ch; margin: 0; }
-
-/* ── CLIENT LOGO WALL ── */
-.aj-clients {
-  border-top: 1px solid var(--line);
-}
-.aj-clients__grid {
-  display:               grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap:                   1px;
-  background:            var(--line);
-  border:                1px solid var(--line);
-}
-@media (min-width: 640px)  { .aj-clients__grid { grid-template-columns: repeat(3, 1fr); } }
-@media (min-width: 960px)  { .aj-clients__grid { grid-template-columns: repeat(4, 1fr); } }
-.aj-client {
-  background:     var(--white);
-  min-height:     108px;
-  display:        flex;
-  align-items:    center;
-  justify-content: center;
-  padding:        20px;
-  text-align:     center;
-  transition:     background .2s ease;
-}
-.aj-client:hover { background: var(--off-white); }
-.aj-client__name {
-  font-family:    'Bricolage Grotesque', system-ui, sans-serif;
-  font-weight:    700;
-  font-size:      16px;
-  letter-spacing: -0.01em;
-  color:          var(--grey-300);
-  transition:     color .2s ease;
-}
-.aj-client:hover .aj-client__name { color: var(--ink); }
-
-/* ── TESTIMONIALS ── */
-.aj-testi-grid {
-  display:               grid;
-  gap:                   24px;
-  grid-template-columns: 1fr;
-}
-@media (min-width: 720px) { .aj-testi-grid { grid-template-columns: repeat(3, 1fr); } }
-
-.aj-testi-card {
-  background:  var(--white);
-  border:      1px solid var(--line);
-  padding:     32px 28px;
-  display:     flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition:  box-shadow .25s ease;
-}
-.aj-testi-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
-.aj-testi-card__quote {
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-  font-size:   16px;
-  font-weight: 500;
-  line-height: 1.7;
-  color:       var(--ink);
-  margin:      0 0 28px;
-  flex:        1;
-}
-.aj-testi-card__rule { width: 28px; height: 1.5px; background: var(--blue); border: none; margin: 0 0 18px; }
-.aj-testi-card__name {
-  font-size:   14px;
-  font-weight: 600;
-  color:       var(--ink);
-  margin:      0 0 3px;
-}
-.aj-testi-card__meta {
-  font-size:   12px;
-  font-weight: 400;
-  color:       var(--grey-500);
-}
-
-/* ── CTA ── */
-.aj-cta {
-  background: var(--ink);
-  padding:    clamp(72px, 10vw, 120px) 0;
-}
-.aj-cta__inner {
-  display:   grid;
-  gap:       48px;
-  align-items: center;
-}
-@media (min-width: 900px) {
-  .aj-cta__inner { grid-template-columns: 1fr 1fr; }
-}
-.aj-cta__rule {
-  width:      40px; height: 2px;
-  background: var(--blue);
-  border:     none;
-  margin:     0 0 20px;
-  display:    block;
-}
-.aj-cta__right {
-  display:        flex;
-  flex-direction: column;
-  gap:            14px;
-  align-items:    flex-start;
-}
-@media (min-width: 900px) {
-  .aj-cta__right { align-items: flex-end; }
-}
-.aj-cta__note {
-  font-size:      11px;
-  font-weight:    500;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color:          rgba(255,255,255,0.35);
-  margin-top:     8px;
-}
-
 /* ── BUTTONS ── */
 .aj-btn {
   display:         inline-flex;
@@ -763,7 +470,24 @@ const STYLES = `
 }
 `;
 
-export default function AjantaLandingPage() {
+const NAV_LINKS = [
+  { id: "home", label: "Home" },
+  { id: "categories", label: "Products" },
+  { id: "capabilities", label: "Why Ajanta" },
+  { id: "clients", label: "Clients" },
+  { id: "enquire", label: "Contact" },
+];
+
+const CONTACT_EMAIL = " ";
+const WHATSAPP_NUMBER = "+91XXXXXXXXXX"; // To be updated with actual number
+const WHATSAPP_MESSAGE = "Hello Ajanta, I would like to request a catalogue.";
+
+const getWhatsAppURL = () => {
+  const encodedMessage = encodeURIComponent(WHATSAPP_MESSAGE);
+  return `whatsapp://send?phone=${WHATSAPP_NUMBER}&text=${encodedMessage}`;
+};
+
+export default function AboutPage() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
@@ -811,9 +535,7 @@ export default function AjantaLandingPage() {
 
           <a
             className="aj-btn aj-btn--sm aj-btn--primary aj-nav__cta"
-            href={whatsappLink(CATALOGUE_MESSAGE)}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={getWhatsAppURL()}
           >
             Request Catalogue
           </a>
@@ -840,9 +562,7 @@ export default function AjantaLandingPage() {
         </nav>
         <a
           className="aj-btn aj-btn--primary"
-          href={whatsappLink(CATALOGUE_MESSAGE)}
-          target="_blank"
-          rel="noopener noreferrer"
+          href={getWhatsAppURL()}
           onClick={() => setMenuOpen(false)}
           style={{ alignSelf: "flex-start" }}
         >
@@ -856,23 +576,18 @@ export default function AjantaLandingPage() {
           <div className="aj-container aj-hero__inner">
             <Reveal>
               <hr className="aj-hero__rule" />
-              <span className="aj-overline">Corporate Gifting — India</span>
+              <span className="aj-overline">Our Story</span>
               <h1 className="aj-h1">
-                Gifts That Build Relationships.
+                Our Journey in Corporate Gifting
               </h1>
               <p className="aj-lead">
-                Ajanta designs, produces, and delivers corporate gifts at scale — onboarding kits, festive hampers, executive sets, and event merchandise, every order on time and on brand.
+                From humble beginnings to trusted partner for India's leading brands.
               </p>
               <div className="aj-hero__actions">
-                <a className="aj-btn aj-btn--primary" href="#categories" onClick={goTo("categories")}>
-                  Explore Products
+                <a className="aj-btn aj-btn--primary" href="#story" onClick={goTo("story")}>
+                  Learn Our Story
                 </a>
-                <a
-                  className="aj-btn aj-btn--outline"
-                  href={whatsappLink(CATALOGUE_MESSAGE)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                <a className="aj-btn aj-btn--outline" href={getWhatsAppURL()}>
                   Request Catalogue
                 </a>
               </div>
@@ -891,142 +606,92 @@ export default function AjantaLandingPage() {
           </div>
         </section>
 
-        {/* ── STATS ── */}
-        <div className="aj-stats">
-          <div className="aj-container">
-            <div className="aj-stats__grid">
-              {[["500+","Brands Served"],["12M+","Gifts Delivered"],["99%","On-Time Rate"],["48 hr","Sample Turnaround"]].map(([n, l]) => (
-                <Reveal key={l} className="aj-stat">
-                  <div className="aj-stat__num">{n}</div>
-                  <div className="aj-stat__label">{l}</div>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* ── PRODUCTS ── */}
-        <section id="categories" className="aj-section">
+        {/* ── STORY ── */}
+        <section id="story" className="aj-section">
           <div className="aj-container">
             <Reveal className="aj-section__head">
-              <span className="aj-overline aj-overline--blue">Our Products</span>
-              <h2 className="aj-h2">What We Produce</h2>
-              <p className="aj-lead aj-lead--wide aj-lead--nobottom">
-                Each category is built to its own brief — sample-approved, on schedule, and on brand.
+              <span className="aj-overline aj-overline--blue">Our Story</span>
+              <h2 className="aj-h2">The Ajanta Journey</h2>
+              <p className="aj-lead aj-lead--wide">
+                {ABOUT_STORY}
               </p>
             </Reveal>
-            <div className="aj-cat-grid">
-              {CATEGORIES.map((c, i) => (
-                <Reveal key={c.title} className="aj-cat-card" delay={i * 70}>
-                  <div className="aj-cat-card__img">
-                    <img src={c.img} alt={c.alt} loading="lazy" />
-                  </div>
-                  <div className="aj-cat-card__body">
-                    <h3 className="aj-cat-card__title">{c.title}</h3>
-                    <p className="aj-cat-card__desc">{c.desc}</p>
-                    <span className="aj-cat-card__link">
-                      Enquire about this category →
-                    </span>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
           </div>
         </section>
 
-        {/* ── CAPABILITIES ── */}
-        <section id="capabilities" className="aj-section aj-section--off">
+        {/* ── VALUES ── */}
+        <section id="values" className="aj-section aj-section--off">
           <div className="aj-container">
             <Reveal className="aj-section__head">
-              <span className="aj-overline aj-overline--blue">Why Ajanta</span>
-              <h2 className="aj-h2">Our Commitments</h2>
+              <span className="aj-overline aj-overline--blue">Our Values</span>
+              <h2 className="aj-h2">What We Stand For</h2>
             </Reveal>
             <div className="aj-dossier">
-              {BENEFITS.map((b, i) => (
-                <Reveal key={b.num} className="aj-dossier__row" delay={i * 55}>
-                  <div className="aj-dossier__label">
-                    <span className="aj-dossier__num">{b.num}</span>
-                    <span className="aj-dossier__title">{b.title}</span>
-                  </div>
-                  <p className="aj-dossier__desc">{b.desc}</p>
-                </Reveal>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        {/* ── OUR CLIENTS ── */}
-        <section id="clients" className="aj-section aj-clients">
-          <div className="aj-container">
-            <Reveal className="aj-section__head aj-section__head--center">
-              <span className="aj-overline aj-overline--blue">Our Clients</span>
-              <h2 className="aj-h2">Brands We've Worked With</h2>
-              <p className="aj-lead aj-lead--nobottom" style={{ marginLeft: "auto", marginRight: "auto" }}>
-                A selection of the teams who trust Ajanta with their gifting programmes.
-              </p>
-            </Reveal>
-            <Reveal>
-              <div className="aj-clients__grid">
-                {CLIENTS.map((name) => (
-                  <div key={name} className="aj-client">
-                    <span className="aj-client__name">{name}</span>
-                  </div>
-                ))}
+              <div className="aj-dossier__row">
+                <div className="aj-dossier__label">
+                  <span className="aj-dossier__num">01</span>
+                  <span className="aj-dossier__title">Quality First</span>
+                </div>
+                <p className="aj-dossier__desc">
+                  Every product undergoes rigorous quality checks before reaching our clients.
+                </p>
               </div>
-            </Reveal>
-          </div>
-        </section>
-
-        {/* ── TESTIMONIALS ── */}
-        <section id="testimonials" className="aj-section aj-section--off">
-          <div className="aj-container">
-            <Reveal className="aj-section__head aj-section__head--center">
-              <span className="aj-overline aj-overline--blue">Client Testimonials</span>
-              <h2 className="aj-h2">Trusted by Leading Companies</h2>
-            </Reveal>
-            <div className="aj-testi-grid">
-              {TESTIMONIALS.map((t, i) => (
-                <Reveal key={t.name} className="aj-testi-card" delay={i * 80}>
-                  <p className="aj-testi-card__quote">"{t.quote}"</p>
-                  <div>
-                    <hr className="aj-testi-card__rule" />
-                    <p className="aj-testi-card__name">{t.name}</p>
-                    <p className="aj-testi-card__meta">{t.title} · {t.company}</p>
-                  </div>
-                </Reveal>
-              ))}
+              <div className="aj-dossier__row">
+                <div className="aj-dossier__label">
+                  <span className="aj-dossier__num">02</span>
+                  <span className="aj-dossier__title">Customization Excellence</span>
+                </div>
+                <p className="aj-dossier__desc">
+                  We tailor every gift to match your brand identity and gifting objectives.
+                </p>
+              </div>
+              <div className="aj-dossier__row">
+                <div className="aj-dossier__label">
+                  <span className="aj-dossier__num">03</span>
+                  <span className="aj-dossier__title">Reliable Delivery</span>
+                </div>
+                <p className="aj-dossier__desc">
+                  Pan-India logistics network ensures timely delivery across 500+ cities.
+                </p>
+              </div>
+              <div className="aj-dossier__row">
+                <div className="aj-dossier__label">
+                  <span className="aj-dossier__num">04</span>
+                  <span className="aj-dossier__title">Sustainable Practices</span>
+                </div>
+                <p className="aj-dossier__desc">
+                  We prioritize eco-friendly materials and ethical sourcing in our products.
+                </p>
+              </div>
             </div>
           </div>
         </section>
 
         {/* ── CTA ── */}
-        <section id="enquire" className="aj-cta">
+        <section id="contact" className="aj-cta">
           <div className="aj-container aj-cta__inner">
             <Reveal>
               <hr className="aj-cta__rule" />
               <span className="aj-overline" style={{ color: "rgba(255,255,255,0.45)" }}>Get in Touch</span>
               <h2 className="aj-h2 aj-h2--white">
-                Ready to Start a Gifting Programme?
+                Ready to Start Your Gifting Journey?
               </h2>
               <p className="aj-lead aj-lead--white aj-lead--nobottom">
-                Request our catalogue or speak with our team on WhatsApp. We'll put together a proposal suited to your budget and occasion, usually within 24 hours.
+                Let's create meaningful connections through thoughtful gifting.
+                We'll respond within one business day.
               </p>
             </Reveal>
             <Reveal delay={100} className="aj-cta__right">
               <a
                 className="aj-btn aj-btn--primary"
-                href={whatsappLink(CATALOGUE_MESSAGE)}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={getWhatsAppURL()}
                 style={{ width: "100%", maxWidth: "320px", justifyContent: "center" }}
               >
-                Request the Catalogue
+                Request Catalogue
               </a>
               <a
                 className="aj-btn aj-btn--outline-white"
-                href={whatsappLink(ENQUIRY_MESSAGE)}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={getWhatsAppURL()}
                 style={{ width: "100%", maxWidth: "320px", justifyContent: "center" }}
               >
                 Start an Enquiry
@@ -1057,13 +722,8 @@ export default function AjantaLandingPage() {
           <div>
             <p className="aj-footer__heading">Contact</p>
             <a className="aj-footer__link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
-            <a
-              className="aj-footer__link"
-              href={whatsappLink(CATALOGUE_MESSAGE)}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Request the catalogue on WhatsApp →
+            <a className="aj-footer__link" href={getWhatsAppURL()}>
+              Request the catalogue →
             </a>
           </div>
         </div>
