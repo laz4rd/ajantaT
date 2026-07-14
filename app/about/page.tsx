@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
+import Link from 'next/link';
 
 // ── CONTACT ── (kept identical to the main page for consistency)
 const WHATSAPP_NUMBER = "91XXXXXXXXXX"; // TODO: replace with the real WhatsApp Business number
@@ -18,11 +19,11 @@ const ENQUIRY_MESSAGE =
 // ── LOGO ── (same asset/path as the main page)
 const MAIN_LOGO = "/Mainlogo.png";
 
-const ABOUT_STORY = `Ajanta Corporate Gifting began with a simple vision: to transform corporate gifting from a transactional obligation into a meaningful relationship-building opportunity. Founded in [Year] by [Founder Name], our journey started in a small workshop where we handcrafted personalized gifts for local businesses.
+const ABOUT_STORY = `Ajanta International, is a 62+ year old market leader in corporate gifting and sales promotional products. Our-state-of-the-art infrastructure, cloud-based supply chain management and special focus on quality allows us to offer unparalleled services to our valued clients and develop long lasting relationships.
 
-What began as a passion project quickly grew as clients recognized the thoughtfulness and quality of our offerings. Today, we serve over 500+ brands across India, delivering 12M+ gifts with a 99% on-time rate. Our commitment to excellence remains unchanged - every gift is still crafted with the same attention to detail and personal touch that started it all.
+Our core team comprises of highly experienced industry veterans and graduates from top universities like IIT Bombay ensuring professional working in the organization.
 
-We believe that the best gifts tell a story, strengthen connections, and leave lasting impressions. That's why we continue to innovate while staying true to our core values of quality, customization, and reliable service.`;
+This brochure is an overview to the broad spectrum of Branding & Promotional products which are either imported or manufactured at our state-of-the-art production facility having an MSME & ISO 9001-15 certification.`;
 
 const HERO_IMAGE = {
   src: "https://images.unsplash.com/photo-1581091878487-7d24424bf374?q=80&w=1400&auto=format&fit=crop",
@@ -52,15 +53,17 @@ const VALUES = [
   },
 ];
 
-// Internal links scroll on this page; external links point back to sections
-// on the home page (this is a separate route, so those ids don't exist here).
+// Nav links — kept identical to the main page so the navbar reads the same on every route.
+// `href` items use absolute "/#id" because the home page lives at a different route;
+// the home-only sections (categories, capabilities, clients, testimonials, enquire) don't
+// exist on /about, so the link routes back to "/" and scrolls to the matching section.
 const NAV_LINKS = [
-  { id: "top", label: "Home" },
-  { id: "story", label: "Our Story" },
-  { id: "values", label: "Our Values" },
   { href: "/#categories", label: "Products" },
+  { href: "/#capabilities", label: "Why Ajanta" },
+  { href: "/about", label: "About Us" },
   { href: "/#clients", label: "Clients" },
-  { id: "contact", label: "Contact" },
+  { href: "/#testimonials", label: "Testimonials" },
+  { href: "/#enquire", label: "Contact" },
 ];
 
 function useInView(threshold = 0.14) {
@@ -605,9 +608,9 @@ export default function AboutPage() {
 
   const renderNavLink = (l: { id?: string; href?: string; label: string }, className: string, onNavigate?: () => void) =>
     l.href ? (
-      <a key={l.label} href={l.href} className={className} onClick={onNavigate}>
+      <Link key={l.label} href={l.href} className={className} onClick={onNavigate}>
         {l.label}
-      </a>
+      </Link>
     ) : (
       <a key={l.label} href={`#${l.id}`} onClick={goTo(l.id!)} className={className}>
         {l.label}

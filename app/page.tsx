@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState, useCallback } from "react";
+import Link from "next/link";
 
 // ── CONTACT ──
 // TODO: replace with the real WhatsApp Business number (with country code, no + or spaces needed here).
@@ -112,9 +113,12 @@ const CLIENTS = [
   { src: "/client8.png", alt: "Client 8" },
 ];
 
-const NAV_LINKS = [
+// Nav links — items with an `id` scroll to a section on this page;
+// items with an `href` navigate to a separate route (e.g. /about).
+const NAV_LINKS: { id?: string; href?: string; label: string }[] = [
   { id: "categories", label: "Products" },
   { id: "capabilities", label: "Why Ajanta" },
+  { href: "/about", label: "About Us" },
   { id: "clients", label: "Clients" },
   { id: "testimonials", label: "Testimonials" },
   { id: "enquire", label: "Contact" },
@@ -794,11 +798,17 @@ export default function AjantaLandingPage() {
           </a>
 
           <nav className="aj-nav__links" aria-label="Primary">
-            {NAV_LINKS.map((l) => (
-              <a key={l.id} href={`#${l.id}`} onClick={goTo(l.id)} className="aj-nav__link">
-                {l.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((l) =>
+              l.href ? (
+                <Link key={l.label} href={l.href} className="aj-nav__link">
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.id} href={`#${l.id}`} onClick={goTo(l.id as string)} className="aj-nav__link">
+                  {l.label}
+                </a>
+              )
+            )}
           </nav>
 
           <a
@@ -824,11 +834,22 @@ export default function AjantaLandingPage() {
       {/* ── MOBILE MENU ── */}
       <div className={`aj-mobile-menu ${menuOpen ? "is-open" : ""}`} aria-hidden={!menuOpen}>
         <nav aria-label="Mobile navigation">
-          {NAV_LINKS.map((l) => (
-            <a key={l.id} href={`#${l.id}`} onClick={goTo(l.id)} className="aj-mobile-menu__link">
-              {l.label}
-            </a>
-          ))}
+          {NAV_LINKS.map((l) =>
+            l.href ? (
+              <Link
+                key={l.label}
+                href={l.href}
+                className="aj-mobile-menu__link"
+                onClick={() => setMenuOpen(false)}
+              >
+                {l.label}
+              </Link>
+            ) : (
+              <a key={l.id} href={`#${l.id}`} onClick={goTo(l.id as string)} className="aj-mobile-menu__link">
+                {l.label}
+              </a>
+            )
+          )}
         </nav>
         <a
           className="aj-btn aj-btn--primary"
@@ -1045,11 +1066,17 @@ export default function AjantaLandingPage() {
           </div>
           <div>
             <p className="aj-footer__heading">Navigation</p>
-            {NAV_LINKS.map((l) => (
-              <a key={l.id} href={`#${l.id}`} onClick={goTo(l.id)} className="aj-footer__link">
-                {l.label}
-              </a>
-            ))}
+            {NAV_LINKS.map((l) =>
+              l.href ? (
+                <Link key={l.label} href={l.href} className="aj-footer__link">
+                  {l.label}
+                </Link>
+              ) : (
+                <a key={l.id} href={`#${l.id}`} onClick={goTo(l.id as string)} className="aj-footer__link">
+                  {l.label}
+                </a>
+              )
+            )}
           </div>
           <div>
             <p className="aj-footer__heading">Contact</p>
