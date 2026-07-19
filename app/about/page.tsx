@@ -7,6 +7,12 @@ import Link from 'next/link';
 const WHATSAPP_NUMBER = "919821015919"; // TODO: replace with the real WhatsApp Business number
 const CONTACT_EMAIL = "sales@ajantainternational.com";
 
+const ADDRESS_LINE_1 = "Ajanta International";
+const ADDRESS_LINE_2 = "Mumbai, Maharashtra, India";
+
+const MAP_EMBED_SRC =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.229197387829!2d72.82774309999999!3d18.9886952!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ce5dbaaaaaab%3A0xd1479dfd1c72351!2sAJANTA%20INTERNATIONAL!5e1!3m2!1sen!2sin!4v1784445540356!5m2!1sen!2sin";
+
 function whatsappLink(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
@@ -55,14 +61,15 @@ const VALUES = [
 
 // Nav links — kept identical to the main page so the navbar reads the same on every route.
 // `href` items use absolute "/#id" because the home page lives at a different route;
-// the home-only sections (categories, capabilities, clients, testimonials, enquire) don't
-// exist on /about, so the link routes back to "/" and scrolls to the matching section.
+// the home-only sections (categories, capabilities, clients, testimonials, visit, enquire)
+// don't exist on /about, so the link routes back to "/" and scrolls to the matching section.
 const NAV_LINKS = [
   { href: "/#categories", label: "Products" },
   { href: "/#capabilities", label: "Why Ajanta" },
   { href: "/about", label: "About Us" },
   { href: "/#clients", label: "Clients" },
   { href: "/#testimonials", label: "Testimonials" },
+  { href: "/#visit", label: "Visit Us" },
   { href: "/#enquire", label: "Contact" },
 ];
 
@@ -117,24 +124,28 @@ const STYLES = `
 
 /* ── TOKENS ── */
 .aj-page {
-  --blue:     #1A4FD6;
-  --ink:      #111111;
-  --white:    #FFFFFF;
-  --off-white:#FAFAFA;
-  --grey-50:  #F5F5F5;
-  --grey-100: #EBEBEB;
-  --grey-300: #C8C8C8;
-  --grey-500: #888888;
-  --grey-700: #444444;
-  --line:     #E2E2E2;
-  --nav-h:    72px;
-  --maxw:     1240px;
-  --pad:      clamp(20px, 5vw, 60px);
-  --radius-btn: 8px;
-  background: var(--white);
-  color:      var(--ink);
-  font-family:'Inter', system-ui, sans-serif;
-  overflow-x: hidden;
+  --blue:        #1A4FD6;
+  --blue-hover:  #1340B8;
+  --ink:         #111;
+  --white:       #fff;
+  --off-white:   #FAFAFA;
+  --grey-50:     #F5F5F5;
+  --grey-100:    #EBEBEB;
+  --grey-300:    #C8C8C8;
+  --grey-500:    #888;
+  --grey-700:    #444;
+  --line:        #E2E2E2;
+  --on-dark-mute: rgba(255,255,255,0.45);
+  --on-dark-line: rgba(255,255,255,0.10);
+  --on-dark-link: rgba(255,255,255,0.65);
+  --nav-h:       72px;
+  --maxw:        1240px;
+  --pad:         clamp(20px, 5vw, 60px);
+  --radius-btn:  8px;
+  background:    var(--white);
+  color:         var(--ink);
+  font-family:   'Inter', system-ui, sans-serif;
+  overflow-x:    hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -163,7 +174,8 @@ const STYLES = `
   margin:         0 0 14px;
   display:        block;
 }
-.aj-overline--blue { color: var(--blue); }
+.aj-overline--blue  { color: var(--blue); }
+.aj-overline--white { color: var(--on-dark-mute); }
 
 .aj-h1 {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
@@ -220,6 +232,13 @@ const STYLES = `
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
+  transition: background .3s ease, border-color .3s ease;
+}
+.aj-nav.is-menu-open {
+  background:     transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
 }
 .aj-nav__inner {
   display:         flex;
@@ -270,6 +289,10 @@ const STYLES = `
   border-radius: 1px;
   transition:    transform .3s ease, opacity .3s ease, background .3s ease;
 }
+.aj-burger.is-open {
+  opacity:        0;
+  pointer-events: none;
+}
 .aj-burger.is-open span { background: var(--white); }
 .aj-burger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
 .aj-burger.is-open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
@@ -302,18 +325,39 @@ const STYLES = `
   opacity:        1;
   pointer-events: all;
 }
+.aj-mobile-menu__top {
+  position:        absolute;
+  top:             0;
+  right:          0;
+  height:          var(--nav-h);
+  width:           var(--nav-h);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+}
+.aj-mobile-menu__close {
+  width:           40px;
+  height:          40px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  color:           var(--white);
+  transition:      color .2s, transform .2s;
+}
+.aj-mobile-menu__close:hover { color: var(--blue); transform: rotate(90deg); }
+.aj-mobile-menu__close svg { width: 24px; height: 24px; }
 .aj-mobile-menu nav { display: flex; flex-direction: column; gap: 0; }
 .aj-mobile-menu__link {
   font-family:    'Bricolage Grotesque', system-ui, sans-serif;
   font-weight:    800;
-  font-size:      clamp(32px, 9vw, 48px);
+  font-size:      clamp(30px, 9vw, 46px);
   color:          var(--white);
   line-height:    1.2;
-  padding:        14px 0;
-  border-bottom:  1px solid rgba(255,255,255,0.1);
+  padding:        12px 0;
+  border-bottom:  1px solid var(--on-dark-line);
   transition:     color .2s;
 }
-.aj-mobile-menu__link:first-child { border-top: 1px solid rgba(255,255,255,0.1); }
+.aj-mobile-menu__link:first-child { border-top: 1px solid var(--on-dark-line); }
 .aj-mobile-menu__link:hover { color: var(--blue); }
 
 @media (min-width: 900px) {
@@ -342,10 +386,11 @@ const STYLES = `
   border:     none;
 }
 .aj-hero__actions {
-  display:     flex;
-  flex-wrap:   wrap;
-  gap:         14px;
-  margin-bottom: 0;
+  display:        flex;
+  flex-wrap:      wrap;
+  gap:            14px;
+  margin-top:     24px;
+  margin-bottom:  0;
 }
 
 /* Hero image */
@@ -396,7 +441,7 @@ const STYLES = `
 .aj-stat__label {
   font-size:      11px;
   font-weight:    500;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color:          var(--grey-500);
   margin-top:     6px;
@@ -467,13 +512,15 @@ const STYLES = `
 .aj-btn--sm { padding: 9px 20px; font-size: 12px; }
 
 .aj-btn--primary   { background: var(--blue); color: var(--white); border-color: var(--blue); }
-.aj-btn--primary:hover { background: #1340b8; border-color: #1340b8; }
+.aj-btn--primary:hover { background: var(--blue-hover); border-color: var(--blue-hover); }
 
 .aj-btn--outline   { background: transparent; color: var(--ink); border-color: var(--ink); }
 .aj-btn--outline:hover { background: var(--ink); color: var(--white); }
 
 .aj-btn--outline-white { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.4); }
 .aj-btn--outline-white:hover { border-color: var(--white); background: rgba(255,255,255,0.06); }
+
+.aj-btn--block { width: 100%; max-width: 320px; justify-content: center; }
 
 /* ── CTA ── */
 .aj-cta {
@@ -510,7 +557,6 @@ const STYLES = `
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color:          rgba(255,255,255,0.35);
-  margin-top:     8px;
 }
 
 /* ── FOOTER ── */
@@ -521,10 +567,10 @@ const STYLES = `
   border-top:   2px solid var(--blue);
 }
 .aj-footer__inner {
-  display:       grid;
-  gap:           40px;
+  display:        grid;
+  gap:            40px;
   padding-bottom: 48px;
-  border-bottom:  1px solid rgba(255,255,255,0.1);
+  border-bottom:  1px solid var(--on-dark-line);
 }
 @media (min-width: 720px) { .aj-footer__inner { grid-template-columns: 1.4fr 1fr 1fr; } }
 
@@ -540,7 +586,7 @@ const STYLES = `
 .aj-footer__copy {
   font-size:   14px;
   line-height: 1.7;
-  color:       rgba(255,255,255,0.45);
+  color:       var(--on-dark-mute);
   max-width:   30ch;
 }
 .aj-footer__heading {
@@ -552,11 +598,11 @@ const STYLES = `
   margin:         0 0 16px;
 }
 .aj-footer__link {
-  display:     block;
-  font-size:   14px;
+  display:       block;
+  font-size:     14px;
   margin-bottom: 10px;
-  color:       rgba(255,255,255,0.65);
-  transition:  color .2s;
+  color:         var(--on-dark-link);
+  transition:    color .2s;
 }
 .aj-footer__link:hover { color: var(--white); }
 .aj-footer__bottom {
@@ -622,7 +668,7 @@ export default function AboutPage() {
       <style>{STYLES}</style>
 
       {/* ── NAV ── */}
-      <header className="aj-nav">
+      <header className={`aj-nav ${menuOpen ? "is-menu-open" : ""}`}>
         <div className="aj-container aj-nav__inner">
           <a href="#top" className="aj-nav__brand" onClick={goTop}>
             <img className="aj-nav__logo-img" src={MAIN_LOGO} alt="Ajanta — Corporate Gifting" />
@@ -653,7 +699,25 @@ export default function AboutPage() {
       </header>
 
       {/* ── MOBILE MENU ── */}
-      <div className={`aj-mobile-menu ${menuOpen ? "is-open" : ""}`} aria-hidden={!menuOpen}>
+      <div
+        className={`aj-mobile-menu ${menuOpen ? "is-open" : ""}`}
+        aria-hidden={!menuOpen}
+        onClick={(e) => {
+          if (e.target === e.currentTarget) setMenuOpen(false);
+        }}
+      >
+        <div className="aj-mobile-menu__top">
+          <button
+            type="button"
+            className="aj-mobile-menu__close"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
         <nav aria-label="Mobile navigation">
           {NAV_LINKS.map((l) => renderNavLink(l, "aj-mobile-menu__link", () => setMenuOpen(false)))}
         </nav>
@@ -749,7 +813,7 @@ export default function AboutPage() {
           <div className="aj-container aj-cta__inner">
             <Reveal>
               <hr className="aj-cta__rule" />
-              <span className="aj-overline" style={{ color: "rgba(255,255,255,0.45)" }}>Get in Touch</span>
+              <span className="aj-overline aj-overline--white">Get in Touch</span>
               <h2 className="aj-h2 aj-h2--white">
                 Ready to Start Your Gifting Journey?
               </h2>
@@ -760,20 +824,18 @@ export default function AboutPage() {
             </Reveal>
             <Reveal delay={100} className="aj-cta__right">
               <a
-                className="aj-btn aj-btn--primary"
+                className="aj-btn aj-btn--primary aj-btn--block"
                 href={whatsappLink(CATALOGUE_MESSAGE)}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ width: "100%", maxWidth: "320px", justifyContent: "center" }}
               >
                 Request Catalogue
               </a>
               <a
-                className="aj-btn aj-btn--outline-white"
+                className="aj-btn aj-btn--outline-white aj-btn--block"
                 href={whatsappLink(ENQUIRY_MESSAGE)}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ width: "100%", maxWidth: "320px", justifyContent: "center" }}
               >
                 Start an Enquiry
               </a>
@@ -798,14 +860,16 @@ export default function AboutPage() {
           </div>
           <div>
             <p className="aj-footer__heading">Contact</p>
-            <a className="aj-footer__link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+            <a className="aj-footer__link" href="mailto:sales@ajantainternational.com">{CONTACT_EMAIL}</a>
+            <a className="aj-footer__link" href="/#visit">{ADDRESS_LINE_1}</a>
+            <a className="aj-footer__link" href="/#visit">{ADDRESS_LINE_2}</a>
             <a
               className="aj-footer__link"
-              href={whatsappLink(CATALOGUE_MESSAGE)}
+              href={whatsappLink(ENQUIRY_MESSAGE)}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Request the catalogue on WhatsApp →
+              Chat with us on WhatsApp →
             </a>
           </div>
         </div>
