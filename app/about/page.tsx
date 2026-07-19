@@ -4,8 +4,8 @@ import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
 
 // ── CONTACT ── (kept identical to the main page for consistency)
-const WHATSAPP_NUMBER = "91XXXXXXXXXX"; // TODO: replace with the real WhatsApp Business number
-const CONTACT_EMAIL = " ";
+const WHATSAPP_NUMBER = "919821015919"; // TODO: replace with the real WhatsApp Business number
+const CONTACT_EMAIL = "sales@ajantainternational.com";
 
 function whatsappLink(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;

@@ -7,6 +7,12 @@ import Link from "next/link";
 const WHATSAPP_NUMBER = "91XXXXXXXXXX";
 const CONTACT_EMAIL = " ";
 
+const ADDRESS_LINE_1 = "Ajanta International";
+const ADDRESS_LINE_2 = "Mumbai, Maharashtra, India";
+
+const MAP_EMBED_SRC =
+  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.229197387829!2d72.82774309999999!3d18.9886952!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ce5dbaaaaaab%3A0xd1479dfd1c72351!2sAJANTA%20INTERNATIONAL!5e1!3m2!1sen!2sin!4v1784445540356!5m2!1sen!2sin";
+
 function whatsappLink(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 }
@@ -30,25 +36,25 @@ const CATEGORIES = [
   {
     title: "Executive Gifting",
     desc: "Leather goods, premium pens, and desk accessories for leadership gifting and client appreciation.",
-    img: "https://images.unsplash.com/photo-1677064061401-f77f966ff8a1?q=80&w=1200&auto=format&fit=crop",
+    img: "/prod1.jpg",
     alt: "Leather notebook with a pen, a premium executive gift set",
   },
   {
     title: "Onboarding Kits",
     desc: "Welcome kits that make day one count — apparel, notebooks, and essentials, thoughtfully assembled and boxed.",
-    img: "https://images.unsplash.com/photo-1674620213535-9b2a2553ef40?q=80&w=1200&auto=format&fit=crop",
+    img: "/prod2.jpg",
     alt: "Corporate onboarding kit packaging",
   },
   {
     title: "Festive Hampers",
     desc: "Curated gourmet hampers for festive and year-end gifting, scaled across offices and cities.",
-    img: "https://images.unsplash.com/photo-1773450970981-793e2d72d820?q=80&w=1200&auto=format&fit=crop",
+    img: "/prod3.jpeg",
     alt: "Gourmet gift hamper, festive corporate gifting",
   },
   {
     title: "Event & Conference",
     desc: "Branded merchandise for conferences, launches, and team events — totes, drinkware, and apparel.",
-    img: "https://images.unsplash.com/photo-1548863227-3af567fc3b27?q=80&w=1200&auto=format&fit=crop",
+    img: "/prod4.jpg",
     alt: "Corporate event merchandise, canvas tote bag",
   },
 ];
@@ -121,6 +127,7 @@ const NAV_LINKS: { id?: string; href?: string; label: string }[] = [
   { href: "/about", label: "About Us" },
   { id: "clients", label: "Clients" },
   { id: "testimonials", label: "Testimonials" },
+  { id: "visit", label: "Visit Us" },
   { id: "enquire", label: "Contact" },
 ];
 
@@ -172,24 +179,28 @@ const STYLES = `
 
 /* ── TOKENS ── */
 .aj-page {
-  --blue:     #1A4FD6;
-  --ink:      #111111;
-  --white:    #FFFFFF;
-  --off-white:#FAFAFA;
-  --grey-50:  #F5F5F5;
-  --grey-100: #EBEBEB;
-  --grey-300: #C8C8C8;
-  --grey-500: #888888;
-  --grey-700: #444444;
-  --line:     #E2E2E2;
-  --nav-h:    72px;
-  --maxw:     1240px;
-  --pad:      clamp(20px, 5vw, 60px);
-  --radius-btn: 8px;
-  background: var(--white);
-  color:      var(--ink);
-  font-family:'Inter', system-ui, sans-serif;
-  overflow-x: hidden;
+  --blue:        #1A4FD6;
+  --blue-hover:  #1340B8;
+  --ink:         #111;
+  --white:       #fff;
+  --off-white:   #FAFAFA;
+  --grey-50:     #F5F5F5;
+  --grey-100:    #EBEBEB;
+  --grey-300:    #C8C8C8;
+  --grey-500:    #888;
+  --grey-700:    #444;
+  --line:        #E2E2E2;
+  --on-dark-mute: rgba(255,255,255,0.45);
+  --on-dark-line: rgba(255,255,255,0.10);
+  --on-dark-link: rgba(255,255,255,0.65);
+  --nav-h:       72px;
+  --maxw:        1240px;
+  --pad:         clamp(20px, 5vw, 60px);
+  --radius-btn:  8px;
+  background:    var(--white);
+  color:         var(--ink);
+  font-family:   'Inter', system-ui, sans-serif;
+  overflow-x:    hidden;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -218,7 +229,8 @@ const STYLES = `
   margin:         0 0 14px;
   display:        block;
 }
-.aj-overline--blue { color: var(--blue); }
+.aj-overline--blue  { color: var(--blue); }
+.aj-overline--white { color: var(--on-dark-mute); }
 
 .aj-h1 {
   font-family: 'Bricolage Grotesque', system-ui, sans-serif;
@@ -274,6 +286,13 @@ const STYLES = `
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border-bottom: 1px solid var(--line);
+  transition: background .3s ease, border-color .3s ease;
+}
+.aj-nav.is-menu-open {
+  background:     transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom-color: transparent;
 }
 .aj-nav__inner {
   display:         flex;
@@ -294,13 +313,12 @@ const STYLES = `
 }
 .aj-nav__links { display: none; gap: 32px; align-items: center; }
 .aj-nav__link {
-  font-size:   13px;
-  font-weight: 500;
-  color:       var(--grey-700);
-  transition:  color .2s;
+  font-size:      13px;
+  font-weight:    500;
+  color:          var(--grey-700);
   padding-bottom: 2px;
-  border-bottom: 1.5px solid transparent;
-  transition: color .2s, border-color .2s;
+  border-bottom:  1.5px solid transparent;
+  transition:     color .2s, border-color .2s;
 }
 .aj-nav__link:hover { color: var(--blue); border-bottom-color: var(--blue); }
 .aj-nav__cta { display: none; }
@@ -324,6 +342,10 @@ const STYLES = `
   background:    var(--ink);
   border-radius: 1px;
   transition:    transform .3s ease, opacity .3s ease, background .3s ease;
+}
+.aj-burger.is-open {
+  opacity:    0;
+  pointer-events: none;
 }
 .aj-burger.is-open span { background: var(--white); }
 .aj-burger.is-open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
@@ -357,6 +379,27 @@ const STYLES = `
   opacity:        1;
   pointer-events: all;
 }
+.aj-mobile-menu__top {
+  position:        absolute;
+  top:             0;
+  right:          0;
+  height:          var(--nav-h);
+  width:           var(--nav-h);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+}
+.aj-mobile-menu__close {
+  width:           40px;
+  height:          40px;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+  color:           var(--white);
+  transition:      color .2s, transform .2s;
+}
+.aj-mobile-menu__close:hover { color: var(--blue); transform: rotate(90deg); }
+.aj-mobile-menu__close svg { width: 24px; height: 24px; }
 .aj-mobile-menu nav { display: flex; flex-direction: column; gap: 0; }
 .aj-mobile-menu__link {
   font-family:    'Bricolage Grotesque', system-ui, sans-serif;
@@ -365,10 +408,10 @@ const STYLES = `
   color:          var(--white);
   line-height:    1.2;
   padding:        12px 0;
-  border-bottom:  1px solid rgba(255,255,255,0.1);
+  border-bottom:  1px solid var(--on-dark-line);
   transition:     color .2s;
 }
-.aj-mobile-menu__link:first-child { border-top: 1px solid rgba(255,255,255,0.1); }
+.aj-mobile-menu__link:first-child { border-top: 1px solid var(--on-dark-line); }
 .aj-mobile-menu__link:hover { color: var(--blue); }
 
 @media (min-width: 900px) {
@@ -397,10 +440,11 @@ const STYLES = `
   border:     none;
 }
 .aj-hero__actions {
-  display:     flex;
-  flex-wrap:   wrap;
-  gap:         14px;
-  margin-bottom: 0;
+  display:        flex;
+  flex-wrap:      wrap;
+  gap:            14px;
+  margin-top:     24px;
+  margin-bottom:  0;
 }
 
 /* Hero image */
@@ -451,7 +495,7 @@ const STYLES = `
 .aj-stat__label {
   font-size:      11px;
   font-weight:    500;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   color:          var(--grey-500);
   margin-top:     6px;
@@ -505,7 +549,7 @@ const STYLES = `
   transition: transform .4s ease;
 }
 .aj-cat-card:hover .aj-cat-card__img img { transform: scale(1.04); }
-.aj-cat-card__body { padding: 24px 28px 28px; }
+.aj-cat-card__body { padding: 24px 28px; }
 .aj-cat-card__title {
   font-family:    'Bricolage Grotesque', system-ui, sans-serif;
   font-weight:    700;
@@ -663,7 +707,6 @@ const STYLES = `
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color:          rgba(255,255,255,0.35);
-  margin-top:     8px;
 }
 
 /* ── BUTTONS ── */
@@ -685,13 +728,78 @@ const STYLES = `
 .aj-btn--sm { padding: 9px 20px; font-size: 12px; }
 
 .aj-btn--primary   { background: var(--blue); color: var(--white); border-color: var(--blue); }
-.aj-btn--primary:hover { background: #1340b8; border-color: #1340b8; }
+.aj-btn--primary:hover { background: var(--blue-hover); border-color: var(--blue-hover); }
 
 .aj-btn--outline   { background: transparent; color: var(--ink); border-color: var(--ink); }
 .aj-btn--outline:hover { background: var(--ink); color: var(--white); }
 
 .aj-btn--outline-white { background: transparent; color: var(--white); border-color: rgba(255,255,255,0.4); }
 .aj-btn--outline-white:hover { border-color: var(--white); background: rgba(255,255,255,0.06); }
+
+.aj-btn--block { width: 100%; max-width: 320px; justify-content: center; }
+
+/* ── VISIT US ── */
+.aj-visit {
+  background: var(--off-white);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding:    clamp(64px, 9vw, 112px) 0;
+}
+.aj-visit__inner {
+  display:               grid;
+  gap:                   40px;
+  grid-template-columns: 1fr;
+  align-items:           stretch;
+}
+@media (min-width: 860px) {
+  .aj-visit__inner { grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+}
+.aj-visit__head { margin-bottom: 28px; }
+.aj-visit__details {
+  display:        flex;
+  flex-direction: column;
+  gap:           18px;
+}
+.aj-visit__row {
+  display:     flex;
+  align-items: flex-start;
+  gap:         14px;
+  font-size:   15px;
+  line-height: 1.65;
+  color:       var(--grey-700);
+}
+.aj-visit__row strong {
+  display:       block;
+  font-weight:   600;
+  color:         var(--ink);
+  font-size:     13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.aj-visit__icon {
+  flex-shrink: 0;
+  width:       20px;
+  height:      20px;
+  margin-top:  2px;
+  color:       var(--blue);
+}
+.aj-visit__map {
+  position:         relative;
+  width:            100%;
+  aspect-ratio:     4 / 3;
+  background:       var(--grey-100);
+  border:           1px solid var(--line);
+  overflow:         hidden;
+}
+.aj-visit__map iframe {
+  position:   absolute;
+  inset:      0;
+  width:      100%;
+  height:     100%;
+  border:     0;
+  display:    block;
+}
 
 /* ── FOOTER ── */
 .aj-footer {
@@ -701,10 +809,10 @@ const STYLES = `
   border-top:   2px solid var(--blue);
 }
 .aj-footer__inner {
-  display:       grid;
-  gap:           40px;
+  display:        grid;
+  gap:            40px;
   padding-bottom: 48px;
-  border-bottom:  1px solid rgba(255,255,255,0.1);
+  border-bottom:  1px solid var(--on-dark-line);
 }
 @media (min-width: 720px) { .aj-footer__inner { grid-template-columns: 1.4fr 1fr 1fr; } }
 
@@ -720,7 +828,7 @@ const STYLES = `
 .aj-footer__copy {
   font-size:   14px;
   line-height: 1.7;
-  color:       rgba(255,255,255,0.45);
+  color:       var(--on-dark-mute);
   max-width:   30ch;
 }
 .aj-footer__heading {
@@ -732,11 +840,11 @@ const STYLES = `
   margin:         0 0 16px;
 }
 .aj-footer__link {
-  display:     block;
-  font-size:   14px;
+  display:       block;
+  font-size:     14px;
   margin-bottom: 10px;
-  color:       rgba(255,255,255,0.65);
-  transition:  color .2s;
+  color:         var(--on-dark-link);
+  transition:    color .2s;
 }
 .aj-footer__link:hover { color: var(--white); }
 .aj-footer__bottom {
@@ -791,7 +899,7 @@ export default function AjantaLandingPage() {
       <style>{STYLES}</style>
 
       {/* ── NAV ── */}
-      <header className="aj-nav">
+      <header className={`aj-nav ${menuOpen ? "is-menu-open" : ""}`}>
         <div className="aj-container aj-nav__inner">
           <a href="#top" className="aj-nav__brand" onClick={goTop}>
             <img className="aj-nav__logo-img" src={MAIN_LOGO} alt="Ajanta — Corporate Gifting" />
@@ -832,7 +940,26 @@ export default function AjantaLandingPage() {
       </header>
 
       {/* ── MOBILE MENU ── */}
-      <div className={`aj-mobile-menu ${menuOpen ? "is-open" : ""}`} aria-hidden={!menuOpen}>
+      <div
+        className={`aj-mobile-menu ${menuOpen ? "is-open" : ""}`}
+        aria-hidden={!menuOpen}
+        onClick={(e) => {
+          // Close when the user taps the dark backdrop (not the nav/links/CTA).
+          if (e.target === e.currentTarget) setMenuOpen(false);
+        }}
+      >
+        <div className="aj-mobile-menu__top">
+          <button
+            type="button"
+            className="aj-mobile-menu__close"
+            aria-label="Close menu"
+            onClick={() => setMenuOpen(false)}
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </button>
+        </div>
         <nav aria-label="Mobile navigation">
           {NAV_LINKS.map((l) =>
             l.href ? (
@@ -974,7 +1101,7 @@ export default function AjantaLandingPage() {
             <Reveal className="aj-section__head aj-section__head--center">
               <span className="aj-overline aj-overline--blue">Our Clients</span>
               <h2 className="aj-h2">Brands We've Worked With</h2>
-              <p className="aj-lead aj-lead--nobottom" style={{ marginLeft: "auto", marginRight: "auto" }}>
+              <p className="aj-lead aj-lead--nobottom">
                 A selection of the teams who trust Ajanta with their gifting programmes.
               </p>
             </Reveal>
@@ -1022,7 +1149,7 @@ export default function AjantaLandingPage() {
           <div className="aj-container aj-cta__inner">
             <Reveal>
               <hr className="aj-cta__rule" />
-              <span className="aj-overline" style={{ color: "rgba(255,255,255,0.45)" }}>Get in Touch</span>
+              <span className="aj-overline aj-overline--white">Get in Touch</span>
               <h2 className="aj-h2 aj-h2--white">
                 Ready to Start a Gifting Programme?
               </h2>
@@ -1032,24 +1159,88 @@ export default function AjantaLandingPage() {
             </Reveal>
             <Reveal delay={100} className="aj-cta__right">
               <a
-                className="aj-btn aj-btn--primary"
+                className="aj-btn aj-btn--primary aj-btn--block"
                 href={whatsappLink(CATALOGUE_MESSAGE)}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ width: "100%", maxWidth: "320px", justifyContent: "center" }}
               >
                 Request the Catalogue
               </a>
               <a
-                className="aj-btn aj-btn--outline-white"
+                className="aj-btn aj-btn--outline-white aj-btn--block"
                 href={whatsappLink(ENQUIRY_MESSAGE)}
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ width: "100%", maxWidth: "320px", justifyContent: "center" }}
               >
                 Start an Enquiry
               </a>
               <p className="aj-cta__note">Response within one business day</p>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ── VISIT US ── */}
+        <section id="visit" className="aj-visit">
+          <div className="aj-container aj-visit__inner">
+            <Reveal>
+              <div className="aj-visit__head">
+                <span className="aj-overline aj-overline--blue">Visit Us</span>
+                <h2 className="aj-h2">Our Office</h2>
+                <p className="aj-lead aj-lead--nobottom">
+                  Drop by to see samples, discuss custom branding, or pick up an order in person.
+                </p>
+              </div>
+              <div className="aj-visit__details">
+                <div className="aj-visit__row">
+                  <svg className="aj-visit__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M12 22s-7-7.5-7-13a7 7 0 1 1 14 0c0 5.5-7 13-7 13z" />
+                    <circle cx="12" cy="9" r="2.5" />
+                  </svg>
+                  <div>
+                    <strong>Address</strong>
+                    {ADDRESS_LINE_1}<br />
+                    {ADDRESS_LINE_2}
+                  </div>
+                </div>
+                <div className="aj-visit__row">
+                  <svg className="aj-visit__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 7v5l3 2" />
+                  </svg>
+                  <div>
+                    <strong>Hours</strong>
+                    Monday – Saturday · 10:00 – 19:00 IST
+                  </div>
+                </div>
+                <div className="aj-visit__row">
+                  <svg className="aj-visit__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                  </svg>
+                  <div>
+                    <strong>Get in touch</strong>
+                    <a
+                      href={whatsappLink(ENQUIRY_MESSAGE)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{ color: "var(--blue)", fontWeight: 600 }}
+                    >
+                      Message us on WhatsApp →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={100}>
+              <div className="aj-visit__map">
+                <iframe
+                  src={MAP_EMBED_SRC}
+                  title="Ajanta International — Mumbai office location"
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                />
+              </div>
             </Reveal>
           </div>
         </section>
@@ -1080,14 +1271,15 @@ export default function AjantaLandingPage() {
           </div>
           <div>
             <p className="aj-footer__heading">Contact</p>
-            <a className="aj-footer__link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+            <a className="aj-footer__link" href="#visit">{ADDRESS_LINE_1}</a>
+            <a className="aj-footer__link" href="#visit">{ADDRESS_LINE_2}</a>
             <a
               className="aj-footer__link"
-              href={whatsappLink(CATALOGUE_MESSAGE)}
+              href={whatsappLink(ENQUIRY_MESSAGE)}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Request the catalogue on WhatsApp →
+              Chat with us on WhatsApp →
             </a>
           </div>
         </div>
