@@ -335,7 +335,10 @@ const STYLES = `
   align-items:     center;
   justify-content: center;
 }
-.aj-mobile-menu__close {
+/* Specificity (0,2,0) beats the .aj-page button reset (0,1,1)
+   so the X stroke renders white on the dark mobile menu, not the
+   inherited page ink colour. */
+.aj-page .aj-mobile-menu__close {
   width:           40px;
   height:          40px;
   display:         flex;
@@ -344,8 +347,8 @@ const STYLES = `
   color:           var(--white);
   transition:      color .2s, transform .2s;
 }
-.aj-mobile-menu__close:hover { color: var(--blue); transform: rotate(90deg); }
-.aj-mobile-menu__close svg { width: 24px; height: 24px; }
+.aj-page .aj-mobile-menu__close:hover { color: var(--blue); transform: rotate(90deg); }
+.aj-mobile-menu__close svg { width: 24px; height: 24px; stroke: var(--white); }
 .aj-mobile-menu nav { display: flex; flex-direction: column; gap: 0; }
 .aj-mobile-menu__link {
   font-family:    'Bricolage Grotesque', system-ui, sans-serif;
