@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
+import SpinningLogo from "./components/SpinningLogo";
 
 // ── CONTACT ──
 // TODO: replace with the real WhatsApp Business number (with country code, no + or spaces needed here).
@@ -27,35 +28,34 @@ const ENQUIRY_MESSAGE =
 // Adjust the paths below if your logos live elsewhere in the codebase.
 const MAIN_LOGO = "/Mainlogo.png";
 
-const HERO_IMAGE = {
-  src: "https://images.unsplash.com/photo-1671749999622-4087a86868cc?q=80&w=1400&auto=format&fit=crop",
-  alt: "Premium corporate gift box with ribbon",
-};
+function categoryEnquiryMessage(categoryTitle: string) {
+  return `Hi Ajanta, I'd like to enquire about your "${categoryTitle}" category.`;
+}
 
 const CATEGORIES = [
   {
-    title: "Executive Gifting",
-    desc: "Leather goods, premium pens, and desk accessories for leadership gifting and client appreciation.",
+    title: "Duffel Bags",
+    desc: "Branded duffel bags for travel, gym, and weekend getaways — durable builds with custom logo placement.",
     img: "/prod1.jpg",
-    alt: "Leather notebook with a pen, a premium executive gift set",
+    alt: "Corporate duffel bag, canvas travel bag with branding",
   },
   {
-    title: "Onboarding Kits",
-    desc: "Welcome kits that make day one count — apparel, notebooks, and essentials, thoughtfully assembled and boxed.",
+    title: "HH-BOT-2 (Water Bottle Pill Organizer)",
+    desc: "A 2-in-1 water bottle with a built-in pill organizer compartment — practical, leak-resistant, and ready to brand.",
     img: "/prod2.jpg",
-    alt: "Corporate onboarding kit packaging",
+    alt: "HH-BOT-2 water bottle with integrated pill organizer",
   },
   {
-    title: "Festive Hampers",
-    desc: "Curated gourmet hampers for festive and year-end gifting, scaled across offices and cities.",
+    title: "Branding Products",
+    desc: "Custom-branded merchandise and corporate giveaways — your logo, your colours, produced to specification.",
     img: "/prod3.jpeg",
-    alt: "Gourmet gift hamper, festive corporate gifting",
+    alt: "Custom branded corporate merchandise",
   },
   {
-    title: "Event & Conference",
-    desc: "Branded merchandise for conferences, launches, and team events — totes, drinkware, and apparel.",
+    title: "Household Utilities",
+    desc: "Useful everyday items for the home or office — practical utility products that make for thoughtful gifting at scale.",
     img: "/prod4.jpg",
-    alt: "Corporate event merchandise, canvas tote bag",
+    alt: "Household utility products, everyday corporate gifts",
   },
 ];
 
@@ -452,7 +452,10 @@ const STYLES = `
 
 /* Hero image */
 .aj-hero__img-wrap {
-  position:   relative;
+  position:     relative;
+  width:        100%;
+  aspect-ratio: 4/5;
+  overflow:     hidden;
 }
 .aj-hero__img {
   width:       100%;
@@ -538,17 +541,30 @@ const STYLES = `
   transition:  box-shadow .25s ease, transform .25s ease;
 }
 .aj-cat-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-3px); }
+
+/* Whole card is a link — strip default <a> styling so the card visuals stay untouched. */
+.aj-cat-card__linkwrap {
+  display:     block;
+  color:       inherit;
+  cursor:      pointer;
+}
 .aj-cat-card__img {
   aspect-ratio: 3/2;
   overflow:    hidden;
-  background:  var(--grey-100);
+  background:  var(--white);
+  display:     flex;
+  align-items: center;
+  justify-content: center;
+  padding:     28px;
 }
 .aj-cat-card__img img {
-  width:      100%;
-  height:     100%;
-  object-fit: cover;
+  width:      auto;
+  height:     auto;
+  max-width:  100%;
+  max-height: 100%;
+  object-fit: contain;
   display:    block;
-  filter:     grayscale(0.12);
+  filter:     none;
   transition: transform .4s ease;
 }
 .aj-cat-card:hover .aj-cat-card__img img { transform: scale(1.04); }
@@ -1023,11 +1039,7 @@ export default function AjantaLandingPage() {
 
             <Reveal delay={120}>
               <div className="aj-hero__img-wrap">
-                <img
-                  className="aj-hero__img"
-                  src={HERO_IMAGE.src}
-                  alt={HERO_IMAGE.alt}
-                />
+                <SpinningLogo />
                 <div className="aj-hero__img-border" aria-hidden="true" />
               </div>
             </Reveal>
@@ -1061,16 +1073,24 @@ export default function AjantaLandingPage() {
             <div className="aj-cat-grid">
               {CATEGORIES.map((c, i) => (
                 <Reveal key={c.title} className="aj-cat-card" delay={i * 70}>
-                  <div className="aj-cat-card__img">
-                    <img src={c.img} alt={c.alt} loading="lazy" />
-                  </div>
-                  <div className="aj-cat-card__body">
-                    <h3 className="aj-cat-card__title">{c.title}</h3>
-                    <p className="aj-cat-card__desc">{c.desc}</p>
-                    <span className="aj-cat-card__link">
-                      Enquire about this category →
-                    </span>
-                  </div>
+                  <a
+                    className="aj-cat-card__linkwrap"
+                    href={whatsappLink(categoryEnquiryMessage(c.title))}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Enquire about ${c.title} on WhatsApp`}
+                  >
+                    <div className="aj-cat-card__img">
+                      <img src={c.img} alt={c.alt} loading="lazy" />
+                    </div>
+                    <div className="aj-cat-card__body">
+                      <h3 className="aj-cat-card__title">{c.title}</h3>
+                      <p className="aj-cat-card__desc">{c.desc}</p>
+                      <span className="aj-cat-card__link">
+                        Enquire about this category →
+                      </span>
+                    </div>
+                  </a>
                 </Reveal>
               ))}
             </div>
