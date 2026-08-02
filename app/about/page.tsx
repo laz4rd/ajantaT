@@ -2,9 +2,10 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
+import SpinningLogo from '../components/SpinningLogo';
 
 // ── CONTACT ── (kept identical to the main page for consistency)
-const WHATSAPP_NUMBER = "919821015919"; // TODO: replace with the real WhatsApp Business number
+const WHATSAPP_NUMBER = "919821015919";
 const CONTACT_EMAIL = "sales@ajantainternational.com";
 
 const ADDRESS_LINE_1 = "Ajanta International";
@@ -30,11 +31,6 @@ const ABOUT_STORY = `Ajanta International, is a 62+ year old market leader in co
 Our core team comprises of highly experienced industry veterans and graduates from top universities like IIT Bombay ensuring professional working in the organization.
 
 This brochure is an overview to the broad spectrum of Branding & Promotional products which are either imported or manufactured at our state-of-the-art production facility having an MSME & ISO 9001-15 certification.`;
-
-const HERO_IMAGE = {
-  src: "https://images.unsplash.com/photo-1581091878487-7d24424bf374?q=80&w=1400&auto=format&fit=crop",
-  alt: "Handcrafted corporate gifts being packaged",
-};
 
 const VALUES = [
   {
@@ -398,14 +394,19 @@ const STYLES = `
 
 /* Hero image */
 .aj-hero__img-wrap {
-  position:   relative;
+  position:     relative;
+  width:        100%;
+  aspect-ratio: 4/3;
+  overflow:     hidden;
+  max-width:    480px;
+  margin:       0 auto;
 }
-.aj-hero__img {
-  width:       100%;
-  aspect-ratio: 4/5;
-  object-fit:  cover;
-  display:     block;
-  filter:      grayscale(0.08);
+@media (min-width: 960px) {
+  .aj-hero__img-wrap {
+    aspect-ratio: 4/5;
+    max-width:    none;
+    margin:       0;
+  }
 }
 .aj-hero__img-border {
   position:    absolute;
@@ -750,7 +751,12 @@ export default function AboutPage() {
                 From humble beginnings to trusted partner for India's leading brands.
               </p>
               <div className="aj-hero__actions">
-                <a className="aj-btn aj-btn--primary" href="#story" onClick={goTo("story")}>
+                <a
+                  className="aj-btn aj-btn--primary"
+                  href="/ajantapdf.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Learn Our Story
                 </a>
                 <a
@@ -766,11 +772,7 @@ export default function AboutPage() {
 
             <Reveal delay={120}>
               <div className="aj-hero__img-wrap">
-                <img
-                  className="aj-hero__img"
-                  src={HERO_IMAGE.src}
-                  alt={HERO_IMAGE.alt}
-                />
+                <SpinningLogo />
                 <div className="aj-hero__img-border" aria-hidden="true" />
               </div>
             </Reveal>
@@ -812,7 +814,7 @@ export default function AboutPage() {
         </section>
 
         {/* ── CTA ── */}
-        <section id="contact" className="aj-cta">
+        <section id="enquire" className="aj-cta">
           <div className="aj-container aj-cta__inner">
             <Reveal>
               <hr className="aj-cta__rule" />

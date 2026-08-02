@@ -1,19 +1,17 @@
 "use client";
 
-import { Canvas, useFrame } from "@react-three/fiber";
-import { useGLTF } from "@react-three/drei";
+import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { useEffect, useRef } from "react";
-import { Box3, Group, Vector3 } from "three";
+import { Group, TextureLoader } from "three";
 
 /**
- * Loads /quit.glb and renders it rotating steadily. Centred, framed to fit,
- * and respects prefers-reduced-motion (rotation pauses if the user opts out).
+ * Spins the company logo image (loaded as a texture) on the Y axis.
+ * Centre is kept on the model's local origin so it spins in place.
+ * Respects prefers-reduced-motion (rotation pauses if the user opts out).
  */
-function Spinner({ url }: { url: string }) {
-  const { scene } = useGLTF(url);
+function LogoPlane({ url }: { url: string }) {
+  const texture = useLoader(TextureLoader, url);
   const ref = useRef<Group>(null);
-  // Ref (not state) so the prefers-reduced-motion read is a side effect on
-  // an external system, not a React state update — no cascading re-renders.
   const reducedRef = useRef(false);
 
   useEffect(() => {
@@ -27,15 +25,12 @@ function Spinner({ url }: { url: string }) {
     return () => mq.removeEventListener("change", onChange);
   }, []);
 
-  // Scale the model so its bounding box's largest axis equals `target` units.
-  useEffect(() => {
-    if (!ref.current) return;
-    const box = new Box3().setFromObject(ref.current);
-    const size = box.getSize(new Vector3());
-    const max = Math.max(size.x, size.y, size.z) || 1;
-    const target = 2.2; // fits comfortably in the camera frustum
-    ref.current.scale.setScalar(target / max);
-  }, [scene]);
+  // Pixel-tight aspect ratio so the plane isn't stretched.
+  const { width, height } = texture.image as HTMLImageElement;
+  const aspect = width && height ? width / height : 1;
+  // Scale to fit comfortably; tuned against the 3.2-z camera + 45° FOV.
+  const planeWidth = 2.4;
+  const planeHeight = planeWidth / aspect;
 
   useFrame((_, delta) => {
     if (!ref.current || reducedRef.current) return;
@@ -45,14 +40,23 @@ function Spinner({ url }: { url: string }) {
 
   return (
     <group ref={ref}>
-      <primitive object={scene} />
+      {/* Front face — logo reads normally. */}
+      <mesh>
+        <planeGeometry args={[planeWidth, planeHeight]} />
+        <meshBasicMaterial map={texture} transparent toneMapped={false} />
+      </mesh>
+      {/* Back face — flipped 180° so the logo reads correctly when viewed from behind. */}
+      <mesh rotation={[0, Math.PI, 0]}>
+        <planeGeometry args={[planeWidth, planeHeight]} />
+        <meshBasicMaterial map={texture} transparent toneMapped={false} />
+      </mesh>
     </group>
   );
 }
 
 /**
- * Replaces the static hero image. The wrapper inherits the parent
- * .aj-hero__img-wrap dimensions (aspect-ratio 4/5) so layout doesn't shift.
+ * Hero logo slot. Renders the company logo as a 3D plane that spins on the Y axis.
+ * Wrapper fills the parent so layout stays consistent with the static image it replaced.
  */
 export default function SpinningLogo() {
   return (
@@ -60,20 +64,17 @@ export default function SpinningLogo() {
       style={{
         position: "absolute",
         inset: 0,
-        width: "100%",
-        height: "100%",
+        display: "grid",
       }}
     >
       <Canvas
         camera={{ position: [0, 0, 3.2], fov: 45 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
-        style={{ width: "100%", height: "100%", display: "block" }}
+        style={{ width: "100%", height: "100%", display: "block", gridArea: "1 / 1" }}
       >
-        <ambientLight intensity={0.7} />
-        <directionalLight position={[3, 3, 3]} intensity={1.1} />
-        <directionalLight position={[-3, -2, 2]} intensity={0.4} />
-        <Spinner url="/quit.glb" />
+        <ambientLight intensity={1.0} />
+        <LogoPlane url="/Mainlogo.png" />
       </Canvas>
     </div>
   );

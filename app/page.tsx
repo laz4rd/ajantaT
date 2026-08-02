@@ -4,9 +4,8 @@ import Link from "next/link";
 import SpinningLogo from "./components/SpinningLogo";
 
 // ── CONTACT ──
-// TODO: replace with the real WhatsApp Business number (with country code, no + or spaces needed here).
-const WHATSAPP_NUMBER = "91XXXXXXXXXX";
-const CONTACT_EMAIL = " ";
+const WHATSAPP_NUMBER = "919821015919";
+const CONTACT_EMAIL = "sales@ajantainternational.com";
 
 const ADDRESS_LINE_1 = "Ajanta International";
 const ADDRESS_LINE_2 = "Mumbai, Maharashtra, India";
@@ -454,8 +453,17 @@ const STYLES = `
 .aj-hero__img-wrap {
   position:     relative;
   width:        100%;
-  aspect-ratio: 4/5;
+  aspect-ratio: 4/3;
   overflow:     hidden;
+  max-width:    480px;
+  margin:       0 auto;
+}
+@media (min-width: 960px) {
+  .aj-hero__img-wrap {
+    aspect-ratio: 4/5;
+    max-width:    none;
+    margin:       0;
+  }
 }
 .aj-hero__img {
   width:       100%;
@@ -1020,7 +1028,7 @@ export default function AjantaLandingPage() {
                 Gifts That Build Relationships.
               </h1>
               <p className="aj-lead">
-                Ajanta designs, produces, and delivers corporate gifts at scale — onboarding kits, festive hampers, executive sets, and event merchandise, every order on time and on brand.
+                Ajanta designs, produces, and delivers corporate gifts at scale — duffel bags, water bottle organizers, custom-branded merchandise, and everyday household utilities, every order on time and on brand.
               </p>
               <div className="aj-hero__actions">
                 <a className="aj-btn aj-btn--primary" href="#categories" onClick={goTo("categories")}>
@@ -1294,6 +1302,7 @@ export default function AjantaLandingPage() {
           </div>
           <div>
             <p className="aj-footer__heading">Contact</p>
+            <a className="aj-footer__link" href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
             <a className="aj-footer__link" href="#visit">{ADDRESS_LINE_1}</a>
             <a className="aj-footer__link" href="#visit">{ADDRESS_LINE_2}</a>
             <a
