@@ -79,6 +79,11 @@ function useInView(threshold = 0.14) {
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) { setInView(true); return; }
+    // If the element is already in (or above) the viewport on mount,
+    // reveal it immediately — otherwise mobile users landing deep-linked
+    // or with a short page see a blank section until they scroll.
+    const rect = node.getBoundingClientRect();
+    if (rect.top < window.innerHeight) { setInView(true); return; }
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {

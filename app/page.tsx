@@ -39,10 +39,10 @@ const CATEGORIES = [
     alt: "Corporate duffel bag, canvas travel bag with branding",
   },
   {
-    title: "HH-BOT-2 (Water Bottle Pill Organizer)",
-    desc: "A 2-in-1 water bottle with a built-in pill organizer compartment — practical, leak-resistant, and ready to brand.",
+    title: "Drinkware & Bottles",
+    desc: "Custom-branded water bottles, flasks, and lifestyle drinkware — stainless, insulated, and printed in your brand colours at scale.",
     img: "/prod2.jpg",
-    alt: "HH-BOT-2 water bottle with integrated pill organizer",
+    alt: "Branded corporate drinkware and water bottles",
   },
   {
     title: "Branding Products",
@@ -140,6 +140,12 @@ function useInView(threshold = 0.14) {
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduced) { setInView(true); return; }
+    // If the element is already in (or above) the viewport on mount —
+    // e.g. user lands deep-linked, or the page is short — reveal it
+    // immediately. Without this, mobile users hitting #categories on
+    // first load see a blank section until they scroll past and back.
+    const rect = node.getBoundingClientRect();
+    if (rect.top < window.innerHeight) { setInView(true); return; }
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => { if (e.isIntersecting) { setInView(true); observer.disconnect(); } });
@@ -546,9 +552,20 @@ const STYLES = `
   background:  var(--white);
   border:      1px solid var(--line);
   overflow:    hidden;
-  transition:  box-shadow .25s ease, transform .25s ease;
+  transition:  box-shadow .25s ease, border-color .2s ease;
 }
-.aj-cat-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.1); transform: translateY(-3px); }
+/* Tap feedback (works on touch) — a brief background tint while pressed. */
+.aj-cat-card:active { background: var(--grey-50); }
+/* Hover-only effects — translate + shadow + image zoom are skipped on
+   touch devices, where they don't fire and would just consume paint
+   budget. The @media (hover: hover) gate keeps the desktop polish. */
+@media (hover: hover) {
+  .aj-cat-card:hover {
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    border-color: var(--grey-300);
+  }
+  .aj-cat-card:hover .aj-cat-card__img img { transform: scale(1.04); }
+}
 
 /* Whole card is a link — strip default <a> styling so the card visuals stay untouched. */
 .aj-cat-card__linkwrap {
@@ -575,7 +592,6 @@ const STYLES = `
   filter:     none;
   transition: transform .4s ease;
 }
-.aj-cat-card:hover .aj-cat-card__img img { transform: scale(1.04); }
 .aj-cat-card__body { padding: 24px 28px; }
 .aj-cat-card__title {
   font-family:    'Bricolage Grotesque', system-ui, sans-serif;
@@ -596,7 +612,9 @@ const STYLES = `
   letter-spacing: 0.01em;
   transition:     gap .2s;
 }
-.aj-cat-card:hover .aj-cat-card__link { gap: 10px; }
+@media (hover: hover) {
+  .aj-cat-card:hover .aj-cat-card__link { gap: 10px; }
+}
 
 /* ── CAPABILITIES (dossier) ── */
 .aj-dossier { border-top: 1px solid var(--line); }
@@ -640,24 +658,23 @@ const STYLES = `
 @media (min-width: 960px)  { .aj-clients__grid { grid-template-columns: repeat(4, 1fr); } }
 .aj-client {
   background:     var(--white);
-  min-height:     108px;
+  min-height:     140px;
   display:        flex;
   align-items:    center;
   justify-content: center;
-  padding:        24px;
-  transition:     background .2s ease;
+  padding:        28px;
 }
-.aj-client:hover { background: var(--off-white); }
 .aj-client__logo {
   max-width:  100%;
-  max-height: 48px;
+  max-height: 84px;
   width:      auto;
   height:     auto;
   object-fit: contain;
-  filter:     grayscale(1) opacity(0.55);
-  transition: filter .2s ease;
+  /* Always full colour, full opacity — no hover treatment on either
+     touch or desktop. The logos are the entire point of the wall; dim
+     defaults make them read as a placeholder strip. */
+  filter:     none;
 }
-.aj-client:hover .aj-client__logo { filter: grayscale(0) opacity(1); }
 
 /* ── TESTIMONIALS ── */
 .aj-testi-grid {
