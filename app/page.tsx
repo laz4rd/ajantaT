@@ -6,6 +6,9 @@ import SpinningLogo from "./components/SpinningLogo";
 // ── CONTACT ──
 const WHATSAPP_NUMBER = "919821015919";
 const CONTACT_EMAIL = "sales@ajantainternational.com";
+// Quicksell — external catalogue / shop link. Placeholder URL; swap once the
+// real destination is known.
+const QUICKSELL_URL = "https://quicksell.co";
 
 const ADDRESS_LINE_1 = "Ajanta International";
 const ADDRESS_LINE_2 = "Mumbai, Maharashtra, India";
@@ -108,13 +111,13 @@ const TESTIMONIALS = [
 // Client logos — expects /public/client1.png, /public/client2.png, etc.
 // Add or remove entries to match how many logo files you have; update `alt` with real client names.
 const CLIENTS = [
-  { src: "/client1.png", alt: "Client 1" },
-  { src: "/client2.png", alt: "Client 2" },
+  { src: "/client1.png", alt: "Client 1", large: true  },
+  { src: "/client2.png", alt: "Client 2", large: true  },
   { src: "/client3.png", alt: "Client 3" },
   { src: "/client4.png", alt: "Client 4" },
   { src: "/client5.png", alt: "Client 5" },
   { src: "/client6.png", alt: "Client 6" },
-  { src: "/client7.png", alt: "Client 7" },
+  { src: "/client7.png", alt: "Client 7", large: true  },
   { src: "/client8.png", alt: "Client 8" },
 ];
 
@@ -675,6 +678,16 @@ const STYLES = `
      defaults make them read as a placeholder strip. */
   filter:     none;
 }
+/* Featured/flagship logos (client1, client2, client7) get a noticeably
+   bigger cell so they read as the marquee names on the wall. */
+.aj-client--large {
+  min-height: 220px;
+  padding:    32px;
+}
+.aj-client__logo--large {
+  max-width:  100%;
+  max-height: 180px;
+}
 
 /* ── TESTIMONIALS ── */
 .aj-testi-grid {
@@ -1059,6 +1072,14 @@ export default function AjantaLandingPage() {
                 >
                   Request Catalogue
                 </a>
+                <a
+                  className="aj-btn aj-btn--outline"
+                  href={QUICKSELL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Browse Quicksell
+                </a>
               </div>
             </Reveal>
 
@@ -1156,9 +1177,17 @@ export default function AjantaLandingPage() {
             <Reveal>
               <div className="aj-clients__grid">
                 {CLIENTS.map((client) => (
-                  <div key={client.src} className="aj-client">
+                  <div
+                    key={client.src}
+                    className={
+                      "aj-client" + (client.large ? " aj-client--large" : "")
+                    }
+                  >
                     <img
-                      className="aj-client__logo"
+                      className={
+                        "aj-client__logo" +
+                        (client.large ? " aj-client__logo--large" : "")
+                      }
                       src={client.src}
                       alt={client.alt}
                       loading="lazy"

@@ -7,6 +7,9 @@ import SpinningLogo from '../components/SpinningLogo';
 // ── CONTACT ── (kept identical to the main page for consistency)
 const WHATSAPP_NUMBER = "919821015919";
 const CONTACT_EMAIL = "sales@ajantainternational.com";
+// Quicksell — external catalogue / shop link. Placeholder URL; swap once the
+// real destination is known.
+const QUICKSELL_URL = "https://quicksell.co";
 
 const ADDRESS_LINE_1 = "Ajanta International";
 const ADDRESS_LINE_2 = "Mumbai, Maharashtra, India";
@@ -771,6 +774,14 @@ export default function AboutPage() {
                   rel="noopener noreferrer"
                 >
                   Request Catalogue
+                </a>
+                <a
+                  className="aj-btn aj-btn--outline"
+                  href={QUICKSELL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Browse Quicksell
                 </a>
               </div>
             </Reveal>
