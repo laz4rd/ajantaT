@@ -131,7 +131,7 @@ const NAV_LINKS: { id?: string; href?: string; label: string }[] = [
 ];
 
 function useInView(threshold = 0.14) {
-  const ref = useRef(null);
+  const ref = useRef<HTMLDivElement | null>(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
     const node = ref.current;
