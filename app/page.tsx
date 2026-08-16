@@ -5,6 +5,11 @@ import SpinningLogo from "./components/SpinningLogo";
 
 // ── CONTACT ──
 const WHATSAPP_NUMBER = "919821015919";
+// Localised display version of the WhatsApp number (no country-code prefix, with spaces).
+const WHATSAPP_PHONE_DISPLAY = "+91 98210 15919";
+// Second phone number — placeholder, replace before going live.
+const SECONDARY_PHONE_DISPLAY = "+91 70398 97829";
+const SECONDARY_PHONE_TEL = "+910000000000";
 const CONTACT_EMAIL = "sales@ajantainternational.com";
 
 const ADDRESS_LINE_1 = "Ajanta International";
@@ -1276,6 +1281,27 @@ export default function AjantaLandingPage() {
                   <div>
                     <strong>Hours</strong>
                     Monday – Saturday · 10:00 – 19:00 IST
+                  </div>
+                </div>
+                <div className="aj-visit__row">
+                  <svg className="aj-visit__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z" />
+                  </svg>
+                  <div>
+                    <strong>Phone</strong>
+                    <a
+                      href={`tel:+${WHATSAPP_NUMBER}`}
+                      style={{ color: "var(--blue)", fontWeight: 600 }}
+                    >
+                      {WHATSAPP_PHONE_DISPLAY}
+                    </a>
+                    <br />
+                    <a
+                      href={`tel:${SECONDARY_PHONE_TEL}`}
+                      style={{ color: "var(--blue)", fontWeight: 600 }}
+                    >
+                      {SECONDARY_PHONE_DISPLAY}
+                    </a>
                   </div>
                 </div>
                 <div className="aj-visit__row">
