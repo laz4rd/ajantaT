@@ -29,7 +29,7 @@ const ENQUIRY_MESSAGE =
 // ── LOGOS ──
 // Paths assume files live in /public (Next.js) so they're served from the site root.
 // Adjust the paths below if your logos live elsewhere in the codebase.
-const MAIN_LOGO = "/Mainlogo.png";
+const MAIN_LOGO = "/new_images_compressed/Mainlogo.webp";
 
 function categoryEnquiryMessage(categoryTitle: string) {
   return `Hi Ajanta, I'd like to enquire about your "${categoryTitle}" category.`;
@@ -39,25 +39,25 @@ const CATEGORIES = [
   {
     title: "Duffel Bags",
     desc: "Branded duffel bags for travel, gym, and weekend getaways — durable builds with custom logo placement.",
-    img: "/prod1.jpg",
+    img: "/new_images_compressed/prod1.webp",
     alt: "Corporate duffel bag, canvas travel bag with branding",
   },
   {
     title: "Drinkware & Bottles",
     desc: "Custom-branded water bottles, flasks, and lifestyle drinkware — stainless, insulated, and printed in your brand colours at scale.",
-    img: "/prod2.jpg",
+    img: "/new_images_compressed/prod2.webp",
     alt: "Branded corporate drinkware and water bottles",
   },
   {
     title: "Branding Products",
     desc: "Custom-branded merchandise and corporate giveaways — your logo, your colours, produced to specification.",
-    img: "/prod3.jpeg",
+    img: "/new_images_compressed/prod3.webp",
     alt: "Custom branded corporate merchandise",
   },
   {
     title: "Household Utilities",
     desc: "Useful everyday items for the home or office — practical utility products that make for thoughtful gifting at scale.",
-    img: "/prod4.jpg",
+    img: "/new_images_compressed/prod4.webp",
     alt: "Household utility products, everyday corporate gifts",
   },
 ];
@@ -109,17 +109,17 @@ const TESTIMONIALS = [
   },
 ];
 
-// Client logos — expects /public/client1.png, /public/client2.png, etc.
+// Client logos — expects /public/client1.webp, /public/client2.webp, etc.
 // Add or remove entries to match how many logo files you have; update `alt` with real client names.
 const CLIENTS = [
-  { src: "/client1.png", alt: "Client 1", large: true  },
-  { src: "/client2.png", alt: "Client 2", large: true  },
-  { src: "/client3.png", alt: "Client 3" },
-  { src: "/client4.png", alt: "Client 4" },
-  { src: "/client5.png", alt: "Client 5" },
-  { src: "/client6.png", alt: "Client 6" },
-  { src: "/client7.png", alt: "Client 7", large: true  },
-  { src: "/client8.png", alt: "Client 8" },
+  { src: "/new_images_compressed/client1.webp", alt: "Client 1", large: true  },
+  { src: "/new_images_compressed/client2.webp", alt: "Client 2", large: true  },
+  { src: "/new_images_compressed/client3.webp", alt: "Client 3" },
+  { src: "/new_images_compressed/client4.webp", alt: "Client 4" },
+  { src: "/new_images_compressed/client5.webp", alt: "Client 5" },
+  { src: "/new_images_compressed/client6.webp", alt: "Client 6" },
+  { src: "/new_images_compressed/client7.webp", alt: "Client 7", large: true  },
+  { src: "/new_images_compressed/client8.webp", alt: "Client 8" },
 ];
 
 // Nav links — items with an `id` scroll to a section on this page;
@@ -442,7 +442,7 @@ const STYLES = `
   padding-bottom: clamp(88px, 11vw, 144px);
   background:
     linear-gradient(90deg, rgba(18, 18, 18, 0.70), rgba(18, 18, 18, 0.45)),
-    url('/Hero.png') center/cover no-repeat;
+    url('/new_images_compressed/Hero.webp') center/cover no-repeat;
   color: var(--white);
 }
 @media (min-width: 960px) {

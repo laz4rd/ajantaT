@@ -74,7 +74,7 @@ export default function SpinningLogo() {
         style={{ width: "100%", height: "100%", display: "block", gridArea: "1 / 1" }}
       >
         <ambientLight intensity={1.0} />
-        <LogoPlane url="/Mainlogo.png" />
+        <LogoPlane url="/new_images_compressed/Mainlogo.webp" />
       </Canvas>
     </div>
   );

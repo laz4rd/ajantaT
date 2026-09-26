@@ -44,9 +44,9 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/favicon.ico", type: "image/x-icon" },
-      { url: "/Mainlogo.png", type: "image/png" },
+      { url: "/new_images_compressed/Mainlogo.webp", type: "image/webp" },
     ],
-    apple: [{ url: "/Mainlogo.png" }],
+    apple: [{ url: "/new_images_compressed/Mainlogo.webp" }],
   },
   openGraph: {
     type: "website",
@@ -57,7 +57,7 @@ export const metadata: Metadata = {
     description: SITE_DESCRIPTION,
     images: [
       {
-        url: "/Mainlogo.png",
+        url: "/new_images_compressed/Mainlogo.webp",
         width: 1200,
         height: 630,
         alt: SITE_NAME,
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${SITE_NAME} — Corporate Gifting, Built to Specification`,
     description: SITE_DESCRIPTION,
-    images: ["/Mainlogo.png"],
+    images: ["/new_images_compressed/Mainlogo.webp"],
   },
   robots: {
     index: true,

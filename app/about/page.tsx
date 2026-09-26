@@ -24,7 +24,7 @@ const ENQUIRY_MESSAGE =
   "Hi Ajanta, I'd like to start a corporate gifting enquiry.";
 
 // ── LOGO ── (same asset/path as the main page)
-const MAIN_LOGO = "/Mainlogo.png";
+const MAIN_LOGO = "/new_images_compressed/Mainlogo.webp";
 
 const ABOUT_STORY = `Ajanta International, is a 62+ year old market leader in corporate gifting and sales promotional products. Our-state-of-the-art infrastructure, cloud-based supply chain management and special focus on quality allows us to offer unparalleled services to our valued clients and develop long lasting relationships.
 
