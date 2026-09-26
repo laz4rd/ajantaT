@@ -46,7 +46,7 @@ const CATEGORIES = [
     title: "Desktop Products",
     desc: "Professional desk accessories and organizational tools designed to keep your workspace clean, efficient, and productive.",
     img: "/new_images_compressed/prod2.webp",
-    alt: "Branded corporate drinkware and water bottles",
+    alt: "Branded corporate desktop accessories, office organization products",
   },
   {
     title: "Branding Products",

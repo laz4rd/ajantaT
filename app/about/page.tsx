@@ -2,7 +2,6 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import Link from 'next/link';
-import SpinningLogo from '../components/SpinningLogo';
 
 // ── CONTACT ── (kept identical to the main page for consistency)
 const WHATSAPP_NUMBER = "919821015919";
@@ -10,9 +9,6 @@ const CONTACT_EMAIL = "sales@ajantainternational.com";
 
 const ADDRESS_LINE_1 = "Ajanta International";
 const ADDRESS_LINE_2 = "Mumbai, Maharashtra, India";
-
-const MAP_EMBED_SRC =
-  "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3743.229197387829!2d72.82774309999999!3d18.9886952!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7ce5dbaaaaaab%3A0xd1479dfd1c72351!2sAJANTA%20INTERNATIONAL!5e1!3m2!1sen!2sin!4v1784445540356!5m2!1sen!2sin";
 
 function whatsappLink(message: string) {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -403,8 +399,11 @@ const STYLES = `
   width:        100%;
   aspect-ratio: 4/3;
   overflow:     hidden;
-  max-width:    480px;
+  max-width:    520px;
   margin:       0 auto;
+  display:      flex;
+  align-items:  center;
+  justify-content: center;
 }
 @media (min-width: 960px) {
   .aj-hero__img-wrap {
@@ -412,6 +411,15 @@ const STYLES = `
     max-width:    none;
     margin:       0;
   }
+}
+.aj-hero__main-logo {
+  position:   relative;
+  z-index:    1;
+  width:      min(100%, 440px);
+  height:     auto;
+  display:    block;
+  object-fit: contain;
+  filter:     drop-shadow(0 18px 30px rgba(17, 17, 17, 0.08));
 }
 .aj-hero__img-border {
   position:    absolute;
@@ -777,7 +785,11 @@ export default function AboutPage() {
 
             <Reveal delay={120}>
               <div className="aj-hero__img-wrap">
-                <SpinningLogo />
+                <img
+                  className="aj-hero__main-logo"
+                  src={MAIN_LOGO}
+                  alt="Ajanta International"
+                />
                 <div className="aj-hero__img-border" aria-hidden="true" />
               </div>
             </Reveal>
