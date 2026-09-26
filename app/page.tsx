@@ -1,7 +1,6 @@
 "use client"
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
-import SpinningLogo from "./components/SpinningLogo";
 
 // ── CONTACT ──
 const WHATSAPP_NUMBER = "919821015919";
@@ -89,24 +88,24 @@ const BENEFITS = [
 const TESTIMONIALS = [
   {
     quote:
-      "The customization process felt like working with an in-house team, not a vendor. Every detail matched our brand guidelines on the first pass.",
-    name: "R. Kapoor",
-    title: "Head of Employee Experience",
-    company: "Financial Services",
+      "Ajanta International has been our trusted partner for corporate gifting for over a decade. Their attention to quality and timely delivery has made them indispensable to our promotional campaigns.",
+    name: "Marketing Head",
+    title: "Corporate Communications",
+    company: "HDFC Bank",
   },
   {
     quote:
-      "We needed four thousand onboarding kits delivered across six cities in eleven days. Ajanta delivered on day ten.",
-    name: "S. Iyer",
-    title: "VP, People Operations",
-    company: "Technology",
+      "The range and quality of promotional products from Ajanta is unmatched. They understand corporate requirements and deliver excellence every time.",
+    name: "Procurement Manager",
+    title: "Supply Chain",
+    company: "Tata Group",
   },
   {
     quote:
-      "Quality control is the part most vendors skip. Ajanta sent approval samples before a single unit went into production.",
-    name: "N. Shah",
-    title: "Procurement Lead",
-    company: "Manufacturing",
+      "Working with a company that has 65+ years of experience gives us confidence. Ajanta International delivers what they promise, consistently.",
+    name: "Brand Manager",
+    title: "Marketing Division",
+    company: "Reliance Industries",
   },
 ];
 
@@ -185,7 +184,7 @@ function Reveal({
 }
 
 const STYLES = `
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Cormorant+Garamond:ital,wght@0,600;0,700;0,800;1,600;1,700;1,800&family=Inter:wght@300;400;500;600&display=swap');
 
 /* ── TOKENS ── */
 .aj-page {
@@ -243,20 +242,22 @@ const STYLES = `
 .aj-overline--white { color: var(--on-dark-mute); }
 
 .aj-h1 {
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
   font-weight: 800;
-  font-size:   clamp(40px, 6.5vw, 80px);
-  line-height: 1.06;
-  letter-spacing: -0.03em;
+  font-size:   clamp(46px, 7vw, 94px);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
   margin:      0 0 24px;
   color:       var(--ink);
 }
 
 .aj-h2 {
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
-  font-weight: 800;
-  font-size:   clamp(28px, 3.8vw, 48px);
-  line-height: 1.12;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size:   clamp(34px, 4.2vw, 56px);
+  line-height: 0.96;
   letter-spacing: -0.025em;
   margin:      0 0 16px;
   color:       var(--ink);
@@ -264,10 +265,11 @@ const STYLES = `
 .aj-h2--white { color: var(--white); }
 
 .aj-h3 {
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
   font-weight: 700;
-  font-size:   clamp(17px, 1.6vw, 20px);
-  line-height: 1.35;
+  font-size:   clamp(22px, 2vw, 30px);
+  line-height: 1.05;
   margin:      0 0 10px;
   color:       var(--ink);
 }
@@ -434,21 +436,40 @@ const STYLES = `
 
 /* ── HERO ── */
 .aj-hero {
-  padding-top:    calc(var(--nav-h) + clamp(48px, 8vw, 96px));
-  padding-bottom: clamp(64px, 9vw, 112px);
-  background:     var(--white);
+  position: relative;
+  min-height: 760px;
+  padding-top:    calc(var(--nav-h) + clamp(56px, 8vw, 120px));
+  padding-bottom: clamp(88px, 11vw, 144px);
+  background:
+    linear-gradient(90deg, rgba(18, 18, 18, 0.70), rgba(18, 18, 18, 0.45)),
+    url('/Hero.png') center/cover no-repeat;
+  color: var(--white);
+}
+@media (min-width: 960px) {
+  .aj-hero {
+    min-height: 820px;
+  }
+}
+.aj-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(17,17,17,0.18), rgba(17,17,17,0.46));
+  pointer-events: none;
 }
 .aj-hero__inner {
+  position: relative;
+  z-index: 1;
   display: grid;
   gap:     56px;
 }
 @media (min-width: 960px) {
-  .aj-hero__inner { grid-template-columns: 1.1fr 0.9fr; align-items: center; }
+  .aj-hero__inner { grid-template-columns: 1fr; align-items: center; }
 }
 .aj-hero__rule {
   width:      56px;
   height:     2px;
-  background: var(--blue);
+  background: rgba(255,255,255,0.75);
   margin:     0 0 24px;
   border:     none;
 }
@@ -459,35 +480,24 @@ const STYLES = `
   margin-top:     24px;
   margin-bottom:  0;
 }
-
-/* Hero image */
-.aj-hero__img-wrap {
-  position:     relative;
-  width:        100%;
-  aspect-ratio: 4/3;
-  overflow:     hidden;
-  max-width:    480px;
-  margin:       0 auto;
+.aj-hero .aj-h1 {
+  color: var(--white);
+  text-shadow: 0 2px 22px rgba(0,0,0,0.2);
+  max-width: 620px;
 }
-@media (min-width: 960px) {
-  .aj-hero__img-wrap {
-    aspect-ratio: 4/5;
-    max-width:    none;
-    margin:       0;
-  }
+.aj-hero .aj-lead {
+  color: rgba(255,255,255,0.8);
+  max-width: 600px;
 }
-.aj-hero__img {
-  width:       100%;
-  aspect-ratio: 4/5;
-  object-fit:  cover;
-  display:     block;
-  filter:      grayscale(0.08);
+.aj-hero .aj-btn--outline {
+  background: rgba(255,255,255,0.03);
+  color: var(--white);
+  border-color: rgba(255,255,255,0.42);
 }
-.aj-hero__img-border {
-  position:    absolute;
-  inset:       -8px;
-  border:      1px solid var(--line);
-  pointer-events: none;
+.aj-hero .aj-btn--outline:hover {
+  background: rgba(255,255,255,0.12);
+  color: var(--white);
+  border-color: var(--white);
 }
 
 /* ── STATS ── */
@@ -554,10 +564,12 @@ const STYLES = `
 @media (min-width: 640px) { .aj-cat-grid { grid-template-columns: repeat(2, 1fr); } }
 
 .aj-cat-card {
-  background:  var(--white);
-  border:      1px solid var(--line);
-  overflow:    hidden;
-  transition:  box-shadow .25s ease, border-color .2s ease;
+  background: linear-gradient(180deg, rgba(255,255,255,1) 0%, rgba(246,246,244,1) 100%);
+  border: 1px solid rgba(17,17,17,0.08);
+  border-radius: 28px;
+  overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .2s ease;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.06);
 }
 /* Tap feedback (works on touch) — a brief background tint while pressed. */
 .aj-cat-card:active { background: var(--grey-50); }
@@ -566,10 +578,11 @@ const STYLES = `
    budget. The @media (hover: hover) gate keeps the desktop polish. */
 @media (hover: hover) {
   .aj-cat-card:hover {
-    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-    border-color: var(--grey-300);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 42px rgba(15, 23, 42, 0.12);
+    border-color: rgba(26, 79, 214, 0.18);
   }
-  .aj-cat-card:hover .aj-cat-card__img img { transform: scale(1.04); }
+  .aj-cat-card:hover .aj-cat-card__img img { transform: scale(1.05); }
 }
 
 /* Whole card is a link — strip default <a> styling so the card visuals stay untouched. */
@@ -581,11 +594,12 @@ const STYLES = `
 .aj-cat-card__img {
   aspect-ratio: 3/2;
   overflow:    hidden;
-  background:  var(--white);
+  background:  #ffffff;
   display:     flex;
   align-items: center;
   justify-content: center;
   padding:     28px;
+  border-bottom: 1px solid rgba(17,17,17,0.05);
 }
 .aj-cat-card__img img {
   width:      auto;
@@ -595,15 +609,17 @@ const STYLES = `
   object-fit: contain;
   display:    block;
   filter:     none;
-  transition: transform .4s ease;
+  transition: transform .45s ease;
 }
 .aj-cat-card__body { padding: 24px 28px; }
 .aj-cat-card__title {
-  font-family:    'Bricolage Grotesque', system-ui, sans-serif;
-  font-weight:    700;
-  font-size:      20px;
-  margin:         0 0 10px;
-  color:          var(--ink);
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
+  font-weight: 700;
+  font-size: clamp(26px, 2.3vw, 32px);
+  line-height: 1;
+  margin: 0 0 10px;
+  color: var(--ink);
 }
 .aj-cat-card__desc { font-size: 14px; line-height: 1.7; color: var(--grey-700); margin: 0; }
 .aj-cat-card__link {
@@ -641,9 +657,11 @@ const STYLES = `
   min-width:   28px;
 }
 .aj-dossier__title {
-  font-family: 'Bricolage Grotesque', system-ui, sans-serif;
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-style: italic;
   font-weight: 700;
-  font-size:   18px;
+  font-size:   clamp(24px, 2vw, 30px);
+  line-height: 1;
   color:       var(--ink);
 }
 .aj-dossier__desc { font-size: 15px; line-height: 1.75; color: var(--grey-700); max-width: 54ch; margin: 0; }
@@ -1055,7 +1073,7 @@ export default function AjantaLandingPage() {
           <div className="aj-container aj-hero__inner">
             <Reveal>
               <hr className="aj-hero__rule" />
-              <span className="aj-overline">Corporate Gifting — India</span>
+              <span className="aj-overline aj-overline--white">Corporate Gifting — India</span>
               <h1 className="aj-h1">
                 Gifts That Build Relationships.
               </h1>
@@ -1074,13 +1092,6 @@ export default function AjantaLandingPage() {
                 >
                   Request Catalogue
                 </a>
-              </div>
-            </Reveal>
-
-            <Reveal delay={120}>
-              <div className="aj-hero__img-wrap">
-                <SpinningLogo />
-                <div className="aj-hero__img-border" aria-hidden="true" />
               </div>
             </Reveal>
           </div>
